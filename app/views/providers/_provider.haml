@@ -1,0 +1,18 @@
+%tr{id: "#{dom_id provider}", class: "#{color_tr(provider)}"}
+  %td= provider.name
+  %td= provider.ruc.presence || '-'
+  %td= provider.address
+  %td= provider.phone
+  %td= provider.contact.presence || '-'
+  %td= provider.country.name
+  %td
+    = link_to provider_path(provider), class: 'black-text' do
+      %i.material-icons visibility
+    %span &nbsp;
+    = link_to edit_provider_path(provider), class: 'black-text' do
+      %i.material-icons edit
+    %span &nbsp;
+    = link_status(provider)
+
+
+

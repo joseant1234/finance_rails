@@ -1,0 +1,3 @@
+$("providers_index").html("<%= j render partial: 'provider', collection: @providers, as: :provider %>")
+$('.pagination-from-table').html('<%= j will_paginate @providers, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer %>')
+$("#table_header").html("<%= j render 'table_header' %>")
