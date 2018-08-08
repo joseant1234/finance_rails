@@ -1,0 +1,46 @@
+.card.no-margin
+  .card-content
+
+    .row.border-collection
+      %nav.white.black-text.z-depth-0
+        .nav-wrapper
+          .col.s12
+            = link_to 'Providers',providers_path, class: "breadcrumb blue-text"
+            = link_to @provider.name,provider_path(@provider), class: "breadcrumb blue-text"
+            = link_to 'VIEW','', class: "breadcrumb black-text"
+
+    .row
+      .col.s12.m4
+        %span.bold Name
+      .col.s12.m8
+        %span= @provider.name
+    .row
+      .col.s12.m4
+        %span.bold RUC
+      .col.s12.m8
+        %span= @provider.ruc.presence || '-'
+    .row
+      .col.s12.m4
+        %span.bold Address
+      .col.s12.m8
+        %span= @provider.address
+    .row
+      .col.s12.m4
+        %span.bold Phone
+      .col.s12.m8
+        %span= @provider.phone
+    .row
+      .col.s12.m4
+        %span.bold Contact
+      .col.s12.m8
+        %span= @provider.contact.presence || '-'
+    .row
+      .col.s12.m4
+        %span.bold Country
+      .col.s12.m8
+        %span= @provider.country.name
+
+
+
+
+

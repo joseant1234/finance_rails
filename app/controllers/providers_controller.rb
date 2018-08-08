@@ -6,7 +6,13 @@ class ProvidersController < ApplicationController
 
   def index
     @providers = Provider.includes(:country).order(sort_column + ' ' + sort_direction)
-    @providers = @providers.paginate(per_page: 2, page: params[:page])
+    @providers = @providers.filter_by_term(params[:term]) if params[:term].present?
+    @providers = @providers.paginate(per_page: 50, page: params[:page])
+
+    respond_to do |f|
+      f.html { render :index }
+      f.js { render :index, layout: false }
+    end
   end
 
   def show
@@ -56,7 +62,7 @@ class ProvidersController < ApplicationController
 
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
   def sort_column
