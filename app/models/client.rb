@@ -1,4 +1,4 @@
-class Provider < ApplicationRecord
+class Client < ApplicationRecord
 
   belongs_to :country
   has_many :operations
@@ -8,12 +8,13 @@ class Provider < ApplicationRecord
   validates :name, :address, :phone, presence: true
 
   def self.filter_by_term(term)
-    where("LOWER(providers.name) LIKE ?
-      OR LOWER(providers.ruc) LIKE ?
-      OR LOWER(providers.address) LIKE ?
-      OR LOWER(providers.phone) LIKE ?",
+    where("LOWER(clients.name) LIKE ?
+      OR LOWER(clients.ruc) LIKE ?
+      OR LOWER(clients.address) LIKE ?
+      OR LOWER(clients.phone) LIKE ?",
       "%#{term.downcase}%", "%#{term.downcase}%", "%#{term.downcase}%",
       "%#{term.downcase}%")
     .group(:id)
   end
+
 end

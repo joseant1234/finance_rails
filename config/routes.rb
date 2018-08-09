@@ -8,4 +8,11 @@ Rails.application.routes.draw do
       put 'status'
     end
   end
+  resources :clients, except: [:destroy] do
+    member do
+      put 'status'
+    end
+  end
+
+  resources :operations, except: [:destroy]
 end

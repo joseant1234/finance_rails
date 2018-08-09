@@ -1,0 +1,15 @@
+%tr{id: "#{dom_id client}", class: "#{color_tr(client)}"}
+  %td= client.name
+  %td= client.ruc.presence || '-'
+  %td= client.address
+  %td= client.phone
+  %td= client.contact.presence || '-'
+  %td= client.country.name
+  %td
+    = link_to client_path(client), class: 'black-text' do
+      %i.material-icons visibility
+    %span &nbsp;
+    = link_to edit_client_path(client), class: 'black-text' do
+      %i.material-icons edit
+    %span &nbsp;
+    = link_status(client)
