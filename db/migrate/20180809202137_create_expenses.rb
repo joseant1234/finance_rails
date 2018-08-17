@@ -1,7 +1,6 @@
-class CreateOperations < ActiveRecord::Migration[5.1]
+class CreateExpenses < ActiveRecord::Migration[5.1]
   def change
-    create_table :operations do |t|
-      t.integer :kind, null: false, default: 0
+    create_table :expenses do |t|
       t.integer :state, null: false, default: 0
       t.integer :source, null: false, default: 0
       t.boolean :with_fee
@@ -10,7 +9,6 @@ class CreateOperations < ActiveRecord::Migration[5.1]
       t.decimal :amount, precision: 6, scale: 2
       t.decimal :igv_amount, precision: 6, scale: 2
       t.references :provider, foreign_key: true
-      t.references :client, foreign_key: true
       t.references :country, foreign_key: true
       t.datetime :billing_at
       t.datetime :transaction_at

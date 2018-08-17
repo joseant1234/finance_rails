@@ -14,5 +14,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :operations, except: [:destroy]
+  resources :expenses, except: [:destroy]
 end

@@ -1,0 +1,15 @@
+= form_for @expense, remote: true do |f|
+
+  #errors.red-text.center.bold.hidden An error occured
+
+  .row.top-space
+    .input-field.col.s12.m4
+      = f.text_field :document_number, 'data-length': '50'
+      = f.label :document_number
+      %small.red-text#document_number_error
+    .input-field.col.s12.m4
+      = f.select :source, options_for_select(Expense.sources.keys)
+      %small.red-text#ruc_error
+    .input-field.col.s12.m4
+      = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@expense.country_id), prompt: 'Choose an option'
+      %small.red-text#country_id_error

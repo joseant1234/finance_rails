@@ -1,0 +1,6 @@
+%tr{id: "#{dom_id expense}"}
+  %td= expense.provider.name
+  %td= expense.description
+  %td= expense.amount
+  %td= expense.created_at.strftime("%yyyy/%mm/%dd")
+  %td= expense.billing_at.strftime("%yyyy/%mm/%dd")
