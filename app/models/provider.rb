@@ -1,5 +1,7 @@
 class Provider < ApplicationRecord
 
+  include SortableConcern
+
   belongs_to :country
   has_many :operations
 

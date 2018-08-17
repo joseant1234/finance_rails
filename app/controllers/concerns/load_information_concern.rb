@@ -4,4 +4,8 @@ module LoadInformationConcern extend ActiveSupport::Concern
    @countries = Country.order_by_name
   end
 
+  def load_providers
+    @providers = Provider.order_by_name
+  end
+
 end

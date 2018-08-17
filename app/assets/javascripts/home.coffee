@@ -5,6 +5,7 @@ $(document).on 'turbolinks:load', ()->
   $('.modal').modal()
   $('select').material_select()
   $('textarea.count-textarea').characterCounter()
+  init_datepicker()
 
 $(document).on 'click','.open-modal-confirmation',(event)->
   event.preventDefault()
@@ -22,3 +23,13 @@ $(document).on 'click','.open-modal-confirmation',(event)->
   else
     $("#modalConfirmation").find("a").attr('data-method',method)
   false;
+
+
+init_datepicker = ->
+  $('.datepicker').pickadate
+    closeOnSelect: true
+    format: 'yyyy-mm-dd'
+    formatSubmit: 'yyyy-mm-dd'
+    hiddenName: true
+    selectYears: 15
+    selectMonths: true

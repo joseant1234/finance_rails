@@ -11,9 +11,16 @@ class ExpensesController < ApplicationController
   def new
     @expense = Expense.new
     load_countries
+    load_providers
   end
 
   def create
+    @expense = Expense.new(expense_params)
+    if @expense.save
+      redirect_to expenses_path, notice: 'Successfully created'
+    else
+      render partial: 'errors/errors', locals: { resource: @expense }
+    end
   end
 
   def edit
@@ -35,8 +42,10 @@ class ExpensesController < ApplicationController
     Expense.column_names.include?(params[:sort]) ? params[:sort] : "amount"
   end
 
-  def operation_params
-    params.require(:expense).permit(:provider_id, :client_id, :igv_amount, :total)
+  def expense_params
+    params.require(:expense).permit(:provider_id, :country_id, :document_number,
+                                    :source, :description, :amount, :igv_amount,
+                                    :billing_at)
   end
 
 end
