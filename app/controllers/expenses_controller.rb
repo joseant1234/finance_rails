@@ -29,6 +29,11 @@ class ExpensesController < ApplicationController
   def update
   end
 
+  def provider_information
+    @provider = Provider.find_by_id(params[:id])
+    render :provider_information, layout: false
+  end
+
   private
   def set_expense
     @expense = Expense.find(params[:id])

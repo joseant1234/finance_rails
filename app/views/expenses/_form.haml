@@ -12,24 +12,30 @@
       = f.label :document_number
       %small.red-text#document_number_error
     .input-field.col.s12.m4
-      = f.select :provider_id, options_from_collection_for_select(@providers,:id,:name,@expense.provider_id), prompt: 'Choose an option'
+      = f.select :provider_id, options_from_collection_for_select(@providers,:id,:name,@expense.provider_id), prompt: 'Choose an option', class: 'provider-select'
       = f.label :provider_id
   .row
     .input-field.col.s12.m4
       = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@expense.country_id), prompt: 'Choose an option'
-      %small.red-text#country_id_error
+      = f.label :country_id
+      %small.red-text#country_error
   .row
     .input-field.col.s12.m4
       = f.text_field :description, data: { length: '200'}
       = f.label :description
+      %small.red-text#description_error
     .input-field.col.s12.m4
-      = f.number_field :amount, step: 'any'
+      = f.number_field :amount, step: 'any', class: 'amout-field'
       = f.label :amount
+      %small.red-text#amount_error
     .input-field.col.s12.m4
-      = f.number_field :igv_amount, step: 'any'
+      = f.number_field :igv_amount, step: 'any', class: 'igv-field'
       = f.label :igv_amount
+      %small.red-text#igv_amount_error
+  .row
     .input-field.col.s12.m4
       = f.text_field :billing_at, class: 'datepicker'
       = f.label :billing_at
+      %small.red-text#billing_at_error
 
 

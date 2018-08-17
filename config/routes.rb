@@ -14,5 +14,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :expenses, except: [:destroy]
+  resources :expenses, except: [:destroy] do
+    collection do
+      get 'provider_information'
+    end
+  end
 end
