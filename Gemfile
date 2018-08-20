@@ -33,13 +33,13 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem "cocoon"
 gem 'devise'
 gem 'figaro'
 gem "haml-rails", "~> 1.0"
 gem 'jquery-rails'
 gem 'letter_opener', :group => :development
 gem 'materialize-sass', '~> 0.100.2'
-gem "nested_form"
 gem 'pg', '0.21.0'
 gem "paperclip", "~> 6.0.0"
 gem "seedbank"

@@ -1,0 +1,7 @@
+<% if @provider.present? %>
+  $('.country-select').val("<%= @provider.country_id %>").change()
+  $('.ruc-field').val("<%= @provider.ruc %>").change().closest('.hidden').fadeIn()
+  $('.address-field').val("<%= @provider.address %>").change().closest('.hidden').fadeIn()
+  $('.phone-field').val("<%= @provider.phone %>").change().closest('.hidden').fadeIn()
+  $('select').material_select()
+<% end %>

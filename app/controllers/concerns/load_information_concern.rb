@@ -8,4 +8,18 @@ module LoadInformationConcern extend ActiveSupport::Concern
     @providers = Provider.order_by_name
   end
 
+  def load_banks
+  	@banks = Bank.order_by_name
+  end
+
+  def load_currencies
+  	@currencies = Currency.order_by_name
+  end
+
+  def load_countries_with_expense
+    @countries = Country.where(id: Expense.select(:country_id ) )
+  end
+
+
+
 end

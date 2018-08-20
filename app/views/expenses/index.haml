@@ -4,18 +4,11 @@
 
 .card.no-margin
   .card-content
-    = form_tag expenses_path, method: :get, remote: true do
-      %p.bold.medium EXPENSES
-      .row.no-margin
-        .input-field.col.s12.no-padding.search-input
-          %i.material-icons.prefix search
-          = text_field_tag :term, params[:term]
-          = label_tag :term, 'Search by name or ruc or address or phone'
-      .row
-        .col.s12.no-padding
-          = button_tag :submit, "data-disable-with": "Searching ...", class: 'btn deep-purple accent-4 right' do
-            Search
+    %p.bold.medium EXPENSES
+    = render 'filters'
 
+    = print_color_state_of_expense
+    
     .overflow-x
       %table.centered
         %thead#table_header

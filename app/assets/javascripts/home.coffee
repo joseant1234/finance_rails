@@ -24,6 +24,15 @@ $(document).on 'click','.open-modal-confirmation',(event)->
     $("#modalConfirmation").find("a").attr('data-method',method)
   false;
 
+$(document).on 'click', '.pagination-from-table .pagination a', ->
+  $(this).closest('.pagination').html('Cargando ...')
+  $.get this.href, null, null, 'script'
+  false
+
+$(document).on 'change', '.send-filter', ()->
+  # $(this).closest('form').submit()
+  # $('#filter_button').trigger('click')
+  Rails.fire(document.getElementById('search_form'), 'submit')
 
 init_datepicker = ->
   $('.datepicker').pickadate

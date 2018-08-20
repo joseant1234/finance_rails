@@ -12,8 +12,8 @@
 //
 //= require rails-ujs
 //= require jquery
-//= require jquery_nested_form
 //= require materialize-sprockets
+//= require cocoon
 //= require common
 //= require turbolinks
 //= require_tree .

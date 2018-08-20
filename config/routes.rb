@@ -18,5 +18,8 @@ Rails.application.routes.draw do
     collection do
       get 'provider_information'
     end
+    member do
+      put 'pay'
+    end
   end
 end

@@ -1,0 +1,3 @@
+$("#expenses_index").html("<%= j render partial: 'expense', collection: @expenses, as: :expense %>")
+$('.pagination-from-table').html('<%= j will_paginate @expenses, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer %>')
+$("#table_header").html("<%= j render 'table_header' %>")

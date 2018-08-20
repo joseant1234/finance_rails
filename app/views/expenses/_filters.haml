@@ -1,0 +1,24 @@
+= form_tag expenses_path, method: :get, remote: true, id: 'search_form' do
+  .row
+    .input-field.col.s12.m3
+      = select_tag :country, options_from_collection_for_select(@countries,:name,:name, 'Peru'), class: 'send-filter'
+      = label_tag :country, 'By country'
+    .input-field.col.s12.m3
+      = text_field_tag :from_date, Date.today.to_date.beginning_of_month, class: 'datepicker send-filter'
+      = label_tag :from_date
+    .input-field.col.s12.m3
+      = text_field_tag :to_date, Date.today.to_date, class: 'datepicker send-filter'
+      = label_tag :to_date
+    .input-field.col.s12.m3
+      = select_tag :currency, options_from_collection_for_select(@currencies,:id,:name, params[:currency]), prompt: 'Choose an option', class: 'send-filter'
+      = label_tag :currency, 'By currency'
+  .row
+    .input-field.col.s12.m3
+      = select_tag :state, options_for_select(Expense.states.keys,params[:state]), prompt: 'Select a state', class: 'send-filter'
+      = label_tag :state, 'By state'
+    .input-field.col.s12.m3
+      = select_tag :payment_type, options_for_select(Expense.payment_types.keys,params[:payment_type]), prompt: 'Choose an option', class: 'send-filter'
+      = label_tag :payment_type, 'By payment type'
+    .input-field.col.s12.m3
+      = select_tag :bank, options_from_collection_for_select(@banks, :id, :name), prompt: 'Choose an option', class: 'send-filter'
+      = label_tag :bank, 'By bank'
