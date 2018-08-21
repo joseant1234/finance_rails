@@ -5,6 +5,10 @@
 
 $(document).on 'change', '.source-select', ()->
   source = $(this).val()
+  if source && source == 'direct'
+    $('.fields-with-invoice').fadeOut()
+  else if source
+    $('.fields-with-invoice').fadeIn()
 
 $(document).on 'change', '.provider-select' , ()->
   provider_id = $(this).val()

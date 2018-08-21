@@ -8,10 +8,10 @@
 
   .row.top-space
     .input-field.col.s12.m4
-      = f.select :source, options_for_select(Expense.sources.keys,:source), class: 'source-select'
+      = f.select :source, options_for_select(Expense.sources.keys,@expense.source),{}, class: 'source-select'
       = f.label :source, 'Source (*)'
       %small.red-text#source_error= @expense.errors.full_messages_for(:source).to_sentence
-    .input-field.col.s12.m4
+    .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
       = f.text_field :document_number, data: { length: '50' }
       = f.label :document_number, 'Document number (*)'
       %small.red-text#document_number_error= @expense.errors.full_messages_for(:document_number).to_sentence
@@ -26,7 +26,7 @@
       = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@expense.country_id),{ prompt: 'Choose an option' }, class: 'country-select'
       = f.label :country_id, 'Country (*)'
       %small.red-text#country_error= @expense.errors.full_messages_for(:country).to_sentence
-    #provider_information{class: "#{'hidden' unless @expense.id.present?}" }
+    #provider_information{class: "#{'hidden' unless @expense.provider_id.present?}" }
       .input-field.col.s12.m3
         = text_field_tag :ruc, @expense.provider.try(:ruc), class: 'ruc-field', disabled: true
         = label_tag :ruc, 'Provider RUC'
@@ -51,13 +51,13 @@
       = f.label :amount, 'Total amount (*)'
       %small.red-text#amount_error= @expense.errors.full_messages_for(:amount).to_sentence
 
-  .row
+  .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
     .input-field.col.s12.m4
       = f.text_field :planned_payment_at, class: 'datepicker', value: @expense.planned_payment_at.try(:strftime,"%Y-%m-%d")
       = f.label :planned_payment_at, 'Planned payment at (*)'
-      %small.red-text#planned_payment_at_error
+      %small.red-text#planned_payment_at_error= @expense.errors.full_messages_for(:planned_payment_at).to_sentence
 
-  .row
+  .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
     .col.s12.m2
       %label With fee
     .col.s12.m10
@@ -68,39 +68,41 @@
           %span.lever
           Yes
 
-  %div{class: "row fees-container #{'hidden' if !@expense.with_fee }" }
+  %div{class: "row fees-container fields-with-invoice #{'hidden' if !@expense.with_fee }" }
     .col.s12
       = f.label :fees, 'Fees'
     .col.s12.top-space
       #fees
         = f.fields_for :fees do |fee_form|
           = render 'fee_fields', f: fee_form
-      %p= link_to_add_association 'Add a fee', f, :fees
+        %p= link_to_add_association 'Add a fee', f, :fees
 
-  .row
+  .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
     .input-field.col.s12.m4
       = f.select :payment_type, options_for_select(Expense.payment_types.keys,:payment_type), {}, class: 'payment-type-select'
       = f.label :payment_type
 
-  %div{class: "row transference-container #{'hidden' unless @expense.transference?}"}
-    .input-field.col.s12.m3
-      = f.select :bank_id, options_from_collection_for_select(@banks,:id,:name,@expense.bank_id)
-      = f.label :bank_id
-    .input-field.col.s12.m3
-      = f.text_field :account_number
-      = f.label :account_number
-    .input-field.col.s12.m3
-      = f.text_field :cci
-      = f.label :cci, 'CCI'
-    .input-field.col.s12.m3
-      = f.email_field :contact_email
-      = f.label :contact_email
+  %div{class: "fields-with-invoice #{'hidden' if @expense.direct? }"}
+    %div{class: "row transference-container #{'hidden' unless @expense.transference?}"}
+      .input-field.col.s12.m3
+        = f.select :bank_id, options_from_collection_for_select(@banks,:id,:name,@expense.bank_id)
+        = f.label :bank_id
+      .input-field.col.s12.m3
+        = f.text_field :account_number
+        = f.label :account_number
+      .input-field.col.s12.m3
+        = f.text_field :cci
+        = f.label :cci, 'CCI'
+      .input-field.col.s12.m3
+        = f.email_field :contact_email
+        = f.label :contact_email
 
-  %div{class: "row upon-delivery-container #{'hidden' unless @expense.upon_delivery?}"}
-    .input-field.col.s12.m4
-      = f.text_field :place_of_delivery
-      = f.label :place_of_delivery
-    .input-field.col.s12.m4
-      = f.text_field :delivery_at, class: 'datepicker'
-      = f.label :delivery_at
+  %div{class: "fields-with-invoice #{'hidden' if @expense.direct? }"}
+    %div{class: "row upon-delivery-container fields-with-invoice #{'hidden' unless @expense.upon_delivery?}"}
+      .input-field.col.s12.m4
+        = f.text_field :place_of_delivery
+        = f.label :place_of_delivery
+      .input-field.col.s12.m4
+        = f.text_field :delivery_at, class: 'datepicker'
+        = f.label :delivery_at
 

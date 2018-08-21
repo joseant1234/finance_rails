@@ -1,0 +1,3 @@
+$("#incomes_index").html("<%= j render partial: 'income', collection: @incomes, as: :income %>")
+$('.pagination-from-table').html('<%= j will_paginate @incomes, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer %>')
+$("#table_header").html("<%= j render 'table_header' %>")

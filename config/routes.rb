@@ -24,4 +24,6 @@ Rails.application.routes.draw do
     end
     resources :fees, shallow: true
   end
+
+  resources :incomes, except: [:destroy]
 end

@@ -8,7 +8,7 @@ class Expense < ApplicationRecord
   belongs_to :currency
   has_many :fees
 
-  enum state: [:pending, :paid, :cancelled]
+  enum state: [:pending, :paid, :overdued]
   enum source: [:invoice, :direct]
   enum payment_type: [:transference, :realized, :upon_delivery]
 
