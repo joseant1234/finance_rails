@@ -1,8 +1,9 @@
 <% if @provider.present? %>
   $('.country-select').val("<%= @provider.country_id %>").change()
-  $('.ruc-field').val("<%= @provider.ruc %>").change()
-  $('.address-field').val("<%= @provider.address %>").change()
-  $('.phone-field').val("<%= @provider.phone %>").change()
+  $('.ruc-field').val("<%= @provider.ruc %>")
+  $('.address-field').val("<%= @provider.address %>")
+  $('.phone-field').val("<%= @provider.phone %>")
   $('#provider_information').fadeIn()
   $('select').material_select()
+  Materialize.updateTextFields()
 <% end %>

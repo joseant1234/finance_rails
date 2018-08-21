@@ -1,0 +1,9 @@
+<% if @client.present? %>
+  $('.country-select').val("<%= @client.country_id %>").change()
+  $('.ruc-field').val("<%= @client.ruc %>")
+  $('.address-field').val("<%= @client.address %>")
+  $('.phone-field').val("<%= @client.phone %>")
+  $('#client_information').fadeIn()
+  $('select').material_select()
+  Materialize.updateTextFields()
+<% end %>

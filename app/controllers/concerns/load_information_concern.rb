@@ -17,9 +17,16 @@ module LoadInformationConcern extend ActiveSupport::Concern
   end
 
   def load_countries_with_expense
-    @countries = Country.where(id: Expense.select(:country_id ) )
+    @countries = Country.where(id: Expense.select(:country_id ) ).order_by_name
   end
 
+  def load_clients
+    @clients = Client.order_by_name
+  end
+
+  def load_countries_with_income
+    @countries = Country.where(id: Income.select(:country_id) ).order_by_name
+  end
 
 
 end

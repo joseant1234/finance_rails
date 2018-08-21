@@ -13,7 +13,7 @@
       %small.red-text#source_error= @expense.errors.full_messages_for(:source).to_sentence
     .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
       = f.text_field :document_number, data: { length: '50' }
-      = f.label :document_number, 'Document number (*)'
+      = f.label :document_number, 'Document number (*)', class: 'active'
       %small.red-text#document_number_error= @expense.errors.full_messages_for(:document_number).to_sentence
     .input-field.col.s12.m4
       = f.select :provider_id, options_from_collection_for_select(@providers,:id,:name,@expense.provider_id), {prompt: 'Choose an option'}, class: 'provider-select'
@@ -40,7 +40,7 @@
   .row
     .input-field.col.s12.m4
       = f.text_field :description, data: { length: '200'}
-      = f.label :description, 'Description (*)'
+      = f.label :description, 'Description (*)', class: 'active'
       %small.red-text#description_error= @expense.errors.full_messages_for(:description).to_sentence
     .input-field.col.s12.m4
       = f.select :currency_id, options_from_collection_for_select(@currencies,:id,:name,@expense.currency_id)
@@ -48,13 +48,13 @@
       %small.red-text#currency_error= @expense.errors.full_messages_for(:currency).to_sentence
     .input-field.col.s12.m4
       = f.number_field :amount, step: 'any', class: 'amout-field'
-      = f.label :amount, 'Total amount (*)'
+      = f.label :amount, 'Amount included IGV(*)', class: 'active'
       %small.red-text#amount_error= @expense.errors.full_messages_for(:amount).to_sentence
 
   .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
     .input-field.col.s12.m4
       = f.text_field :planned_payment_at, class: 'datepicker', value: @expense.planned_payment_at.try(:strftime,"%Y-%m-%d")
-      = f.label :planned_payment_at, 'Planned payment at (*)'
+      = f.label :planned_payment_at, 'Planned payment at (*)', class: 'active'
       %small.red-text#planned_payment_at_error= @expense.errors.full_messages_for(:planned_payment_at).to_sentence
 
   .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
@@ -89,20 +89,20 @@
         = f.label :bank_id
       .input-field.col.s12.m3
         = f.text_field :account_number
-        = f.label :account_number
+        = f.label :account_number, class: 'active'
       .input-field.col.s12.m3
         = f.text_field :cci
-        = f.label :cci, 'CCI'
+        = f.label :cci, 'CCI', class: 'active'
       .input-field.col.s12.m3
         = f.email_field :contact_email
-        = f.label :contact_email
+        = f.label :contact_email, class: 'active'
 
   %div{class: "fields-with-invoice #{'hidden' if @expense.direct? }"}
     %div{class: "row upon-delivery-container fields-with-invoice #{'hidden' unless @expense.upon_delivery?}"}
       .input-field.col.s12.m4
         = f.text_field :place_of_delivery
-        = f.label :place_of_delivery
+        = f.label :place_of_delivery, class: 'active'
       .input-field.col.s12.m4
         = f.text_field :delivery_at, class: 'datepicker'
-        = f.label :delivery_at
+        = f.label :delivery_at, class: 'active'
 

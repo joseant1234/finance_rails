@@ -19,5 +19,22 @@
     .top-space.center.pagination-from-table
       = will_paginate @expenses, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer
 
+    .row
+      .col.s12.m2
+        %span.bold TOTAL (PEN):
+      .col.s12.m2.right-text
+        %span= number_with_precision(Expense.calculate_total_soles, precision: 2)
+    .row
+      .col.s12.m2
+        %span.bold TOTAL (USD) IN PEN:
+      .col.s12.m2.right-text
+        %span= number_with_precision(Expense.calculate_total_dollar_in_soles, precision: 2)
+    .row
+      .col.s12.m2
+        %span.bold TOTAL IN PEN
+      .col.s12.m2.right-text
+        %span= number_with_precision(Expense.calculate_total_in_soles, precision: 2)
+
+
 = render 'modal_pay_expense'
 = render 'modal_send_contact_email'

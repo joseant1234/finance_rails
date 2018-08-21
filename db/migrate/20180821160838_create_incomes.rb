@@ -8,7 +8,7 @@ class CreateIncomes < ActiveRecord::Migration[5.1]
       t.string :purchase_order_number
       t.decimal :amount, precision: 10, scale: 2
       t.decimal :igv_amount, precision: 10, scale: 2
-      t.references :provider, foreign_key: true
+      t.references :client, foreign_key: true
       t.references :country, foreign_key: true
       t.datetime :billing_at
       t.attachment :invoice_copy

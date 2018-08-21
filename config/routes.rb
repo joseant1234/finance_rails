@@ -25,5 +25,12 @@ Rails.application.routes.draw do
     resources :fees, shallow: true
   end
 
-  resources :incomes, except: [:destroy]
+  resources :incomes, except: [:destroy] do
+    collection do
+      get 'client_information'
+    end
+    member do
+      get 'download'
+    end
+  end
 end

@@ -1,0 +1,75 @@
+.card.no-margin
+  .card-content
+
+    .row.border-collection
+      %nav.white.black-text.z-depth-0
+        .nav-wrapper
+          .col.s12
+            = link_to 'Incomes',incomes_path, class: "breadcrumb blue-text"
+            = link_to @income.description.truncate(25),income_path(@income), class: "breadcrumb blue-text"
+            = link_to 'VIEW','', class: "breadcrumb black-text"
+
+    .row
+      .col.s12.m4
+        %span.bold Invoice number:
+      .col.s12.m8
+        %span= @income.invoice_number
+
+    .row
+      .col.s12.m4
+        %span.bold Client name:
+      .col.s12.m8
+        %span= @income.client.name
+
+    .row
+      .col.s12.m4
+        %span.bold Country:
+      .col.s12.m8
+        %span= @income.country.name
+
+    .row
+      .col.s12.m4
+        %span.bold Description:
+      .col.s12.m8
+        %span= @income.description
+
+    .row
+      .col.s12.m4
+        %span.bold Amount:
+      .col.s12.m8
+        %span= "#{@income.currency.code} #{@income.amount}"
+
+    .row
+      .col.s12.m4
+        %span.bold Purchase order number:
+      .col.s12.m8
+        %span= @income.purchase_order_number
+
+    .row
+      .col.s12.m4
+        %span.bold Billing date (yyyy-mm-dd):
+      .col.s12.m8
+        %span= @income.billing_at.strftime("%Y-%m-%d")
+
+    .row
+      .col.s12.m4
+        %span.bold Invoice copy:
+      .col.s12.m8
+        %span
+          - if @income.invoice_copy.present?
+            = link_to @income.invoice_copy.original_filename, download_income_path(@income,document: 'invoice_copy')
+          - else
+            -
+
+    .row
+      .col.s12.m4
+        %span.bold Purchase order:
+      .col.s12.m8
+        %span
+        - if @income.purchase_order.present?
+          = link_to @income.purchase_order.original_filename, download_income_path(@income,document: 'purchase_order')
+        -else
+          -
+
+
+

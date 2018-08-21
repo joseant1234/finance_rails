@@ -6,4 +6,6 @@
   %td= income.billing_at.strftime("%Y/%m/%d")
   %td= income.state
   %td
+    = link_to "<i class='material-icons'>visibility</i>".html_safe, income_path(income)
     = link_to "<i class='material-icons'>edit</i>".html_safe, edit_income_path(income)
+    = link_to "<i class='material-icons'>cloud_download</i>".html_safe, download_income_path(income)

@@ -3,7 +3,7 @@ module ExpenseHelper
   def color_state_of_expense(expense)
     return 'amber' if expense.pending?
     return 'green' if expense.paid?
-    return 'red' if expense.expirated?
+    return 'red' if expense.overdued?
   end
 
   def print_color_state_of_expense
@@ -15,7 +15,7 @@ module ExpenseHelper
       content_tag(:span, 'Paid', class: 'little-left-space') +
 
       content_tag(:div,nil, class: 'color-state red little-left-space')+
-      content_tag(:span, 'Cancelled', class: 'little-left-space')
+      content_tag(:span, 'Overdued', class: 'little-left-space')
     end
   end
 

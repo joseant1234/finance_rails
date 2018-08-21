@@ -7,7 +7,7 @@
     %p.bold.medium INCOMES
     = render 'filters'
 
-    = print_color_state_of_incomes
+    = print_color_state_of_income
 
     .overflow-x
       %table.centered
@@ -18,3 +18,21 @@
 
     .top-space.center.pagination-from-table
       = will_paginate @incomes, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer
+
+    .row
+      .col.s12.m2
+        %span.bold TOTAL (PEN):
+      .col.s12.m2.right-text
+        %span= number_with_precision(Income.calculate_total_soles, precision: 2)
+    .row
+      .col.s12.m2
+        %span.bold TOTAL (USD) IN PEN:
+        %small.block= "(Rate of chage: #{Parameter.rate_of_change.last.value})"
+      .col.s12.m2.right-text
+        %span= number_with_precision(Income.calculate_total_dollar_in_soles, precision: 2)
+    .row
+      .col.s12.m2
+        %span.bold TOTAL IN PEN
+        %small.block= "(Rate of chage: #{Parameter.rate_of_change.last.value})"
+      .col.s12.m2.right-text
+        %span= number_with_precision(Income.calculate_total_in_soles, precision: 2)

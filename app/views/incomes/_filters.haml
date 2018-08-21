@@ -14,5 +14,5 @@
       = label_tag :currency, 'By currency'
   .row
     .input-field.col.s12.m3
-      = select_tag :state, options_for_select(class_enum_for_select("Incomes","state")), prompt: 'Select a state', class: 'send-filter'
+      = select_tag :state, options_for_select(class_enum_for_select("Income","state")), prompt: 'Select a state', class: 'send-filter'
       = label_tag :state, 'By state'

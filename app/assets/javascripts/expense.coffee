@@ -3,13 +3,6 @@
 #   $('.igv-field').val(amount * 0.18)
 #   Materialize.updateTextFields()
 
-$(document).on 'change', '.source-select', ()->
-  source = $(this).val()
-  if source && source == 'direct'
-    $('.fields-with-invoice').fadeOut()
-  else if source
-    $('.fields-with-invoice').fadeIn()
-
 $(document).on 'change', '.provider-select' , ()->
   provider_id = $(this).val()
   action = $('#provider_information_link').attr('href')

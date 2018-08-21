@@ -34,6 +34,13 @@ $(document).on 'change', '.send-filter', ()->
   # $('#filter_button').trigger('click')
   Rails.fire(document.getElementById('search_form'), 'submit')
 
+$(document).on 'change', '.source-select', ()->
+  source = $(this).val()
+  if source && source == 'direct'
+    $('.fields-with-invoice').fadeOut()
+  else if source
+    $('.fields-with-invoice').fadeIn()
+
 init_datepicker = ->
   $('.datepicker').pickadate
     closeOnSelect: true

@@ -1,7 +1,10 @@
 class Client < ApplicationRecord
 
+  include SortableConcern
+
   belongs_to :country
-  has_many :operations
+  has_many :expenses
+  has_many :incomes
 
   enum status: [:active, :desactive]
 

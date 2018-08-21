@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_expense, only: [:edit, :update, :pay]
+  before_action :set_expense, only: [:show, :edit, :update, :pay]
 
   helper_method :sort_column, :sort_direction
 
@@ -24,6 +24,9 @@ class ExpensesController < ApplicationController
       f.js { render :index, layout: false }
     end
 
+  end
+
+  def show
   end
 
   def new

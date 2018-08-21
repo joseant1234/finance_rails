@@ -54,12 +54,28 @@ class Expense < ApplicationRecord
   end
 
   def self.filter_by_currency(currency)
-    joins(:currencies).where('LOWER(currencies.id) = ?',currency).distinct
+    joins(:currency).where('currencies.id = ?',currency).distinct
+  end
+
+  def self.calculate_total_soles
+    where(currency_id: Currency.find_by_code('PEN')).sum("expenses.amount")
+  end
+
+  def self.calculate_total_dollar
+    where(currency_id: Currency.find_by_code('USD')).sum("expenses.amount")
+  end
+
+  def self.calculate_total_dollar_in_soles
+    calculate_total_dollar * Parameter.rate_of_change.last.value.to_f || 0
+  end
+
+  def self.calculate_total_in_soles
+    calculate_total_soles + calculate_total_dollar_in_soles
   end
 
 
   def amount_decimal
-    number_with_precision(amount, :precision => 2) || 0
+    number_with_precision(amount, precision: 2) || 0
   end
 
   def pay(amount, transaction_at, transaction_document)
