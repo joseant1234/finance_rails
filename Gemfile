@@ -43,6 +43,8 @@ gem 'letter_opener', :group => :development
 gem 'materialize-sass', '~> 0.100.2'
 gem 'pg', '0.21.0'
 gem "paperclip", "~> 6.0.0"
+gem 'prawn'
+gem 'prawn-table'
 gem "seedbank"
 gem 'will_paginate', '~> 3.1.0'
 

@@ -1,6 +1,8 @@
+require "#{Rails.root}/app/views/pdfs/invoice_pdf.rb"
+
 class IncomesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_income, only: [:show, :edit, :update, :download]
+  before_action :set_income, only: [:show, :edit, :update, :download,:generate_invoice]
 
   helper_method :sort_column, :sort_direction
 
@@ -68,6 +70,15 @@ class IncomesController < ApplicationController
       end
     rescue StandardError => error
       render nothing: true, status: 204, notice: "Nothing to download"
+    end
+  end
+
+  def generate_invoice
+    respond_to do |format|
+      format.pdf do
+        pdf = InvoicePDF.new(@income)
+        send_data pdf.render, filename: "INVOICE_#{@income.invoice_number}.pdf", type: 'application/pdf'
+      end
     end
   end
 

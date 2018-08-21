@@ -7,5 +7,6 @@
   %td= income.state
   %td
     = link_to "<i class='material-icons'>visibility</i>".html_safe, income_path(income)
+    = link_to "<i class='material-icons'>visibility</i>".html_safe, generate_invoice_income_path(income,format: :pdf)
     = link_to "<i class='material-icons'>edit</i>".html_safe, edit_income_path(income)
     = link_to "<i class='material-icons'>cloud_download</i>".html_safe, download_income_path(income)
