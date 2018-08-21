@@ -1,0 +1,20 @@
+= form_for @fee, remote: true, multipart: true do |f|
+  #errors.red-text.center.bold.hidden An error occured
+  .row
+    .input-field.col.s12.m3
+      = f.number_field :amount, step: 'any'
+      = f.label :amount
+      %small.red-text#amount_error
+    .input-field.col.s12.m3
+      = f.date_field :planned_payment_at
+      = f.label :planned_payment_at, class: 'active'
+      %small.red-text#planned_payment_at_error
+    .input-field.col.s12.m3
+      = f.date_field :transaction_at
+      = f.label :transaction_at, class: 'active'
+      %small.red-text#transaction_at_error
+  .row
+    .input.field.col.s12.m3
+      = f.file_field :document
+      = f.label :document
+      %small.red-text#document_error

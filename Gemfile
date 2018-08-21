@@ -37,6 +37,7 @@ gem "cocoon"
 gem 'devise'
 gem 'figaro'
 gem "haml-rails", "~> 1.0"
+gem 'humanize_boolean'
 gem 'jquery-rails'
 gem 'letter_opener', :group => :development
 gem 'materialize-sass', '~> 0.100.2'

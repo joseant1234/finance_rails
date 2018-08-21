@@ -1,4 +1,7 @@
 class Expense < ApplicationRecord
+
+  include ActionView::Helpers::NumberHelper
+
   belongs_to :provider
   belongs_to :country
   belongs_to :bank, optional: true
@@ -8,9 +11,10 @@ class Expense < ApplicationRecord
   enum state: [:pending, :paid, :cancelled]
   enum source: [:invoice, :direct]
   enum payment_type: [:transference, :realized, :upon_delivery]
-  
+
   validates :description, :amount, :planned_payment_at, presence: true
   validates :document_number, presence: true, if: :invoice?
+  validates :transaction_at, presence: true, if: :paid?
 
   has_attached_file :transaction_document, default_url: "/images/default.png"
   validates_attachment_content_type :transaction_document, content_type: /\Aimage\/.*\z/
@@ -52,6 +56,16 @@ class Expense < ApplicationRecord
   def self.filter_by_currency(currency)
     joins(:currencies).where('LOWER(currencies.id) = ?',currency).distinct
   end
+
+
+  def amount_decimal
+    number_with_precision(amount, :precision => 2) || 0
+  end
+
+  def pay(amount, transaction_at, transaction_document)
+    self.update({ amount: amount, transaction_at: transaction_at, transaction_document: transaction_document, state: 'paid' })
+  end
+
 
 
 end

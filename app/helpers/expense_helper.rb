@@ -19,4 +19,9 @@ module ExpenseHelper
     end
   end
 
+  def link_to_pay(expense)
+    return link_to "<i class='material-icons'>monetization_on</i>".html_safe, expense_fees_path(expense), class: "green-text" if expense.with_fee == true
+    return content_tag(:a,"<i class='material-icons'>monetization_on</i>".html_safe, href: '', class: "green-text btn-pay-expense", data: { amount: expense.amount_decimal, form_action: pay_expense_path(expense) })
+  end
+
 end

@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_expense, only: [:edit, :update]
+  before_action :set_expense, only: [:edit, :update, :pay]
 
   helper_method :sort_column, :sort_direction
 
@@ -18,7 +18,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_bank(params[:bank]) unless params[:bank].blank?
     @expenses = @expenses.filter_by_payment_type(params[:payment_type]) unless params[:payment_type].blank?
     @expenses = @expenses.paginate(per_page: 2, page: params[:page])
-    
+
     respond_to do |f|
       f.html { render :index }
       f.js { render :index, layout: false }
@@ -63,6 +63,14 @@ class ExpensesController < ApplicationController
       load_banks
       load_currencies
       render :edit
+    end
+  end
+
+  def pay
+    if @expense.pay(params[:amount], params[:transaction_at], params[:transaction_document])
+      render :pay, layout: false
+    else
+      render partial: 'errors/errors', locals: { resource: @expense }
     end
   end
 

@@ -22,6 +22,7 @@ class CreateExpenses < ActiveRecord::Migration[5.1]
       t.integer :payment_type, null: false, default: 0
       t.references :bank, foreign_key: true
       t.references :currency, foreign_key: true
+      t.datetime :expiration_at
 
       t.timestamps
     end

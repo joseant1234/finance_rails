@@ -2,6 +2,7 @@ class CreateProviders < ActiveRecord::Migration[5.1]
   def change
     create_table :providers do |t|
       t.string :name, null: false
+      t.string :corporate_name
       t.string :ruc
       t.string :address, null: false
       t.string :phone, null: false

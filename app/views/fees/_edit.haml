@@ -1,0 +1,6 @@
+.modal-content
+  %h4 Pay fee
+  = render 'form'
+.modal-footer
+  = submit_tag 'Save', class: 'btn deep-purple accent-4', form: "edit_fee_#{@fee.id}"
+  %a{href: "#", class: 'modal-action modal-close waves-effect btn-flat'} Close

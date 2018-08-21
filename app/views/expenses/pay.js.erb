@@ -1,0 +1,6 @@
+$("#<%= dom_id @expense %>").replaceWith("<%= j render partial: 'expense', locals: { expense: @expense } %>")
+$("#modalPayExpense").modal('close')
+
+<% if @expense.transference? %>
+  $("#modalSendEmail").modal('open')
+<% end %>

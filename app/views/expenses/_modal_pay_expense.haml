@@ -1,0 +1,26 @@
+.modal#modalPayExpense
+  .modal-content
+    %h4 Pay Expense
+    = form_tag '', method: :put, remote: true, id: 'pay_expense_form' do
+      #errors.red-text.center.bold.hidden An error occured
+      .row
+        .input-field.col.s12.m6
+          = number_field_tag :amount, '', step: 'any', class: 'amount-expense'
+          = label_tag :amount
+          %small.red-text#amount_error
+        .input-field.col.s12.m6
+          = text_field_tag :transaction_at, '', class: 'datepicker'
+          = label_tag :transaction_at
+          %small.red-text#transaction_at_error
+      .row
+        .col.s12
+          = label_tag :transaction_document
+        .col.s12
+          = file_field_tag :transaction_document
+          %small.red-text#transaction_document_error
+    .modal-footer
+      = submit_tag 'Save', class: 'btn deep-purple accent-4', form: 'pay_expense_form'
+      %a{href: "#", class: 'modal-action modal-close waves-effect btn-flat'} Close
+
+
+

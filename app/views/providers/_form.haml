@@ -1,30 +1,38 @@
 = form_for @provider, remote: true do |f|
+  .row
+    .col.s12
+      %span.bold (*) Required fields
 
   #errors.red-text.center.bold.hidden An error occured
 
   .row.top-space
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.text_field :name, 'data-length': '50'
-      = f.label :name
+      = f.label :name, 'Name (*)'
       %small.red-text#name_error
-    .input-field.col.s12.m4
-      = f.text_field :ruc, 'data-length': '10'
+    .input-field.col.s12.m3
+      = f.text_field :corporate_name, 'data-length': '50'
+      = f.label :corporate_name
+      %small.red-text#corporate_name_error
+    .input-field.col.s12.m3
+      = f.text_field :ruc, 'data-length': '11'
       = f.label :ruc
       %small.red-text#ruc_error
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@provider.country_id), prompt: 'Choose an option'
+      = f.label :country_id, 'Country (*)'
       %small.red-text#country_id_error
 
   .row
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.text_field :address, 'data-length': '50'
-      = f.label :address
+      = f.label :address, 'Address (*)'
       %small.red-text#address_error
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.text_field :phone, 'data-length': '10'
-      = f.label :phone
+      = f.label :phone, 'Phone (*)'
       %small.red-text#phone_error
-    .input-field.col.s12.m4
-      = f.text_field :contact, 'data-length': '10'
+    .input-field.col.s12.m3
+      = f.text_field :contact, 'data-length': '50'
       = f.label :contact
       %small.red-text#contact_error

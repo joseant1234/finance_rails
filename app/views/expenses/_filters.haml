@@ -14,10 +14,10 @@
       = label_tag :currency, 'By currency'
   .row
     .input-field.col.s12.m3
-      = select_tag :state, options_for_select(Expense.states.keys,params[:state]), prompt: 'Select a state', class: 'send-filter'
+      = select_tag :state, options_for_select(class_enum_for_select("Expense","state")), prompt: 'Select a state', class: 'send-filter'
       = label_tag :state, 'By state'
     .input-field.col.s12.m3
-      = select_tag :payment_type, options_for_select(Expense.payment_types.keys,params[:payment_type]), prompt: 'Choose an option', class: 'send-filter'
+      = select_tag :payment_type, options_for_select(class_enum_for_select("Expense","payment_type")), prompt: 'Choose an option', class: 'send-filter'
       = label_tag :payment_type, 'By payment type'
     .input-field.col.s12.m3
       = select_tag :bank, options_from_collection_for_select(@banks, :id, :name), prompt: 'Choose an option', class: 'send-filter'

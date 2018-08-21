@@ -7,4 +7,5 @@
   %td= expense.state
   %td
     = link_to "<i class='material-icons'>edit</i>".html_safe, edit_expense_path(expense)
-    = link_to "<i class='material-icons'>monetization_on</i>".html_safe, pay_expense_path(expense), class: 'green-text'
+    - if expense.pending?
+      = link_to_pay(expense)

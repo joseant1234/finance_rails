@@ -1,62 +1,67 @@
 = form_for @expense, multipart: true do |f|
-  
+  .row
+    .col.s12
+      %span.bold (*) Required fields
+
   - if @expense.errors.any?
     #errors.red-text.center.bold An error occured
 
   .row.top-space
     .input-field.col.s12.m4
-      = f.select :source, options_for_select(Expense.sources.keys,:source)
-      = f.label :source
+      = f.select :source, options_for_select(Expense.sources.keys,:source), class: 'source-select'
+      = f.label :source, 'Source (*)'
       %small.red-text#source_error= @expense.errors.full_messages_for(:source).to_sentence
     .input-field.col.s12.m4
       = f.text_field :document_number, data: { length: '50' }
-      = f.label :document_number
+      = f.label :document_number, 'Document number (*)'
       %small.red-text#document_number_error= @expense.errors.full_messages_for(:document_number).to_sentence
     .input-field.col.s12.m4
       = f.select :provider_id, options_from_collection_for_select(@providers,:id,:name,@expense.provider_id), {prompt: 'Choose an option'}, class: 'provider-select'
-      = f.label :provider_id
+      = f.label :provider_id, 'Provider (*)'
       %small.red-text#provider_error= @expense.errors.full_messages_for(:provider).to_sentence
-      = link_to 'More', provider_information_expenses_path, remote: true, class: 'hidden', id: 'provider_information_link'      
+      = link_to 'More', provider_information_expenses_path, remote: true, class: 'hidden', id: 'provider_information_link'
+
   .row
     .input-field.col.s12.m3
       = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@expense.country_id),{ prompt: 'Choose an option' }, class: 'country-select'
-      = f.label :country_id
+      = f.label :country_id, 'Country (*)'
       %small.red-text#country_error= @expense.errors.full_messages_for(:country).to_sentence
-    .input-field.col.s12.m3.hidden
-      = text_field_tag :ruc, '', class: 'ruc-field', disabled: true
-      = label_tag :ruc, 'Provider RUC'
-    .input-field.col.s12.m3.hidden
-      = text_field_tag :address, '', class: 'address-field', disabled: true
-      = label_tag :address, 'Provider address'
-    .input-field.col.s12.m3.hidden
-      = text_field_tag :phone, '', class: 'phone-field', disabled: true
-      = label_tag :phone, 'Provider phone'
+    #provider_information{class: "#{'hidden' unless @expense.id.present?}" }
+      .input-field.col.s12.m3
+        = text_field_tag :ruc, @expense.provider.try(:ruc), class: 'ruc-field', disabled: true
+        = label_tag :ruc, 'Provider RUC'
+      .input-field.col.s12.m3
+        = text_field_tag :address, @expense.provider.try(:address), class: 'address-field', disabled: true
+        = label_tag :address, 'Provider address'
+      .input-field.col.s12.m3
+        = text_field_tag :phone, @expense.provider.try(:phone), class: 'phone-field', disabled: true
+        = label_tag :phone, 'Provider phone'
 
   .row
     .input-field.col.s12.m4
       = f.text_field :description, data: { length: '200'}
-      = f.label :description
+      = f.label :description, 'Description (*)'
       %small.red-text#description_error= @expense.errors.full_messages_for(:description).to_sentence
     .input-field.col.s12.m4
       = f.select :currency_id, options_from_collection_for_select(@currencies,:id,:name,@expense.currency_id)
-      = f.label :currency_id
+      = f.label :currency_id, 'Currency (*)'
       %small.red-text#currency_error= @expense.errors.full_messages_for(:currency).to_sentence
     .input-field.col.s12.m4
       = f.number_field :amount, step: 'any', class: 'amout-field'
-      = f.label :amount
+      = f.label :amount, 'Total amount (*)'
       %small.red-text#amount_error= @expense.errors.full_messages_for(:amount).to_sentence
 
   .row
     .input-field.col.s12.m4
       = f.text_field :planned_payment_at, class: 'datepicker', value: @expense.planned_payment_at.try(:strftime,"%Y-%m-%d")
-      = f.label :planned_payment_at
+      = f.label :planned_payment_at, 'Planned payment at (*)'
       %small.red-text#planned_payment_at_error
 
   .row
     .col.s12.m2
       %label With fee
     .col.s12.m10
-      .switch.top-space       
+      .switch.top-space
         %label
           No
           = f.check_box :with_fee, class: 'with-fee-toggle'
@@ -76,8 +81,8 @@
     .input-field.col.s12.m4
       = f.select :payment_type, options_for_select(Expense.payment_types.keys,:payment_type), {}, class: 'payment-type-select'
       = f.label :payment_type
-  
-  %div{class: "row transference-container #{'hidden' unless @expense.transference?}"}  
+
+  %div{class: "row transference-container #{'hidden' unless @expense.transference?}"}
     .input-field.col.s12.m3
       = f.select :bank_id, options_from_collection_for_select(@banks,:id,:name,@expense.bank_id)
       = f.label :bank_id
@@ -91,7 +96,7 @@
       = f.email_field :contact_email
       = f.label :contact_email
 
-  %div{class: "row upon-delivery-container #{'hidden' unless @expense.upon_delivery?}"}  
+  %div{class: "row upon-delivery-container #{'hidden' unless @expense.upon_delivery?}"}
     .input-field.col.s12.m4
       = f.text_field :place_of_delivery
       = f.label :place_of_delivery

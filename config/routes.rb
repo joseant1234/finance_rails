@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       put 'status'
     end
   end
+
   resources :clients, except: [:destroy] do
     member do
       put 'status'
@@ -21,5 +22,6 @@ Rails.application.routes.draw do
     member do
       put 'pay'
     end
+    resources :fees, shallow: true
   end
 end

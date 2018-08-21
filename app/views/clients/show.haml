@@ -16,6 +16,11 @@
         %span= @client.name
     .row
       .col.s12.m4
+        %span.bold Corporate name
+      .col.s12.m8
+        %span= @client.corporate_name.presence || '-'
+    .row
+      .col.s12.m4
         %span.bold RUC
       .col.s12.m8
         %span= @client.ruc.presence || '-'

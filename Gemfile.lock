@@ -93,6 +93,8 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
+    humanize_boolean (0.0.2)
+      i18n
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.7.0)
@@ -243,6 +245,7 @@ DEPENDENCIES
   devise
   figaro
   haml-rails (~> 1.0)
+  humanize_boolean
   jbuilder (~> 2.5)
   jquery-rails
   letter_opener

@@ -3,6 +3,9 @@
 #   $('.igv-field').val(amount * 0.18)
 #   Materialize.updateTextFields()
 
+$(document).on 'change', '.source-select', ()->
+  source = $(this).val()
+
 $(document).on 'change', '.provider-select' , ()->
   provider_id = $(this).val()
   action = $('#provider_information_link').attr('href')
@@ -30,6 +33,21 @@ $(document).on 'change', '.payment-type-select', ()->
   else if payment == 'upon_delivery'
     pay_transference.fadeOut('slow')
     pay_upon_delivery.fadeIn('slow')
+
+$(document).on 'click', '.btn-pay-expense', (ev)->
+  ev.preventDefault()
+  amount = $(this).data 'amount'
+  action = $(this).data 'form-action'
+
+  $('#errors').addClass 'hidden'
+  $("small[id*='_error']").html ''
+  $("input, textarea").removeClass 'invalid'
+
+  $('#modalPayExpense').modal 'open'
+  if amount && action
+    $('.amount-expense').val amount
+    $('#modalPayExpense form').attr 'action', action
+    Materialize.updateTextFields()
 
 $(document).on 'cocoon:after-insert', '#fees', ()->
   init_datepicker()
