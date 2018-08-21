@@ -1,0 +1,4 @@
+%tr{id: "#{dom_id parameter}"}
+  %td= parameter.kind.humanize
+  %td= parameter.value
+  %td= link_to "<i class='material-icons'>edit</i>".html_safe, edit_parameter_path(parameter) ,remote: true

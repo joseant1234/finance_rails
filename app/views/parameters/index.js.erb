@@ -1,0 +1,3 @@
+$("#parameters_index").html("<%= j render partial: 'parameter', collection: @parameters, as: :parameter %>")
+$('.pagination-from-table').html('<%= j will_paginate @parameters, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer %>')
+$("#table_header").html("<%= j render 'table_header' %>")

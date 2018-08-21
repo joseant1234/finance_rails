@@ -34,4 +34,6 @@ Rails.application.routes.draw do
       get 'generate_invoice'
     end
   end
+
+  resources :parameters, except: [:new, :create, :destroy]
 end
