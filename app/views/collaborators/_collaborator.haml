@@ -1,0 +1,16 @@
+%tr{id: "#{dom_id collaborator}", class: "#{color_tr(collaborator)}"}
+  %td= collaborator.name
+  %td= collaborator.last_name
+  %td= collaborator.address.presence || '-'
+  %td= collaborator.phone.presence || '-'
+  %td= collaborator.email.presence || '-'
+  %td
+    = link_to collaborator_path(collaborator), class: 'black-text' do
+      %i.material-icons visibility
+    = link_to edit_collaborator_path(collaborator), class: 'black-text' do
+      %i.material-icons edit
+    = link_status(collaborator)
+
+
+
+

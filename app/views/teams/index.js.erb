@@ -1,0 +1,3 @@
+$("#teams_index").html("<%= j render partial: 'team', collection: @teams, as: :team %>")
+$('.pagination-from-table').html('<%= j will_paginate @teams, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer %>')
+$("#table_header").html("<%= j render 'table_header' %>")

@@ -70,4 +70,11 @@ module ApplicationHelper
     class_name.constantize.send(enum_name.pluralize).keys.map {|k| [k.humanize, k]}
   end
 
+  def print_zoom_image(src,height="100%",width="100%")
+    image_tag(src, height: height, width: width, class: 'materialboxed')+
+    content_tag(:div, class: 'center', style: "width: #{width}") do
+      content_tag(:small, '(click to zoom)', class: 'bold')
+    end
+  end
+
 end

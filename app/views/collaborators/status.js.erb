@@ -1,0 +1,5 @@
+$("#<%= dom_id @collaborator %>").replaceWith("<%= j render partial: 'collaborator', locals: {collaborator: @collaborator} %>")
+$("#modalConfirmation").modal('close')
+Materialize.toast('Successfully <%= @collaborator.status %>d', 4000)
+
+$('.dropdown-button').dropdown({hover: true})

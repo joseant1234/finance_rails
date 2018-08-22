@@ -1,0 +1,12 @@
+= form_for @team, remote: true do |f|
+  .row
+    .col.s12
+      %span.bold (*) Required fields
+
+  #errors.red-text.center.bold.hidden An error occured
+
+  .row.top-space
+    .input-field.col.s12.m3
+      = f.text_field :name, 'data-length': '50'
+      = f.label :name, 'Name (*)'
+      %small.red-text#name_error

@@ -6,6 +6,8 @@ class Expense < ApplicationRecord
   belongs_to :country
   belongs_to :bank, optional: true
   belongs_to :currency
+  belongs_to :team, optional: true
+  belongs_to :collaborator, optional: true
   has_many :fees
 
   enum state: [:pending, :paid, :overdued]

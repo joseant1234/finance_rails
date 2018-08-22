@@ -50,7 +50,6 @@
       = f.number_field :amount, step: 'any', class: 'amout-field'
       = f.label :amount, 'Total (*)', class: 'active'
       %small.red-text#amount_error= @income.errors.full_messages_for(:amount).to_sentence
-
   .row
     .col.s12.m6
       .file-field.input-field
@@ -78,4 +77,8 @@
       = f.text_field :billing_at, class: 'datepicker', value: @income.billing_at.try(:strftime,"%Y-%m-%d")
       = f.label :billing_at, 'Billing at (*)', class: 'active'
       %small.red-text#billing_at_error= @income.errors.full_messages_for(:billing_at).to_sentence
+    .input-field.col.s12.m4
+      = f.select :state, class_enum_for_select("Income","state"), {}, class: 'send-filter'
+      = label_tag :state, 'State(*)'
+      %small.red-text#state_error= @income.errors.full_messages_for(:state).to_sentence
 

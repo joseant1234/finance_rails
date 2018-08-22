@@ -105,6 +105,6 @@ class IncomesController < ApplicationController
     params.require(:income).permit(:income_id, :country_id, :invoice_number, :client_id,
                                     :source, :description, :currency_id, :amount,
                                     :billing_at, :purchase_order, :purchase_order_number,
-                                    :invoice_copy)
+                                    :invoice_copy, :state)
   end
 end

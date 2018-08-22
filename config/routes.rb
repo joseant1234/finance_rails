@@ -15,6 +15,17 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :teams, except: [:show, :destroy] do
+    member do
+      put 'status'
+    end
+    resources :collaborators, shallow: true, except: [:destroy]
+  end
+
+  resources :collaborators, only: [] do
+    put 'status', on: :member
+  end
+
   resources :expenses, except: [:destroy] do
     collection do
       get 'provider_information'

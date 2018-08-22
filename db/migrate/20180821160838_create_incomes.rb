@@ -19,6 +19,9 @@ class CreateIncomes < ActiveRecord::Migration[5.1]
       t.text :reason
       t.boolean :drawdown_seal
       t.string :reference
+      t.references :team, foreign_key: true
+      t.references :collaborator, foreign_key: true
+
 
       t.timestamps
     end

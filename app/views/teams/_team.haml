@@ -1,0 +1,11 @@
+%tr{id: "#{dom_id team}", class: "#{color_tr(team)}"}
+  %td= team.name
+  %td
+    = link_to edit_team_path(team), class: 'black-text' do
+      %i.material-icons edit
+    = link_status(team)
+    = link_to team_collaborators_path(team), class: 'black-text' do
+      %i.material-icons people
+
+
+

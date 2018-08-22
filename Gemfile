@@ -46,6 +46,7 @@ gem "paperclip", "~> 6.0.0"
 gem 'prawn'
 gem 'prawn-table'
 gem "seedbank"
+gem 'validates_email_format_of'
 gem 'will_paginate', '~> 3.1.0'
 
 group :development, :test do

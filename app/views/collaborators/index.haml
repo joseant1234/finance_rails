@@ -1,0 +1,38 @@
+.fixed-action-btn.new-button
+  = link_to new_team_collaborator_path(@team), class: "btn-floating waves-effect waves-light btn-large deep-purple accent-4 btn" do
+    %i.material-icons add
+
+.card.no-margin
+  .card-content
+    %nav.white.black-text.z-depth-0
+      .nav-wrapper
+        .col.s12
+          = link_to 'Teams', teams_path, class: "breadcrumb blue-text"
+          = link_to @team.name,team_collaborators_path(@team), class: "breadcrumb blue-text"
+          = link_to 'Collaborators', team_collaborators_path(@team), class: "breadcrumb black-text"
+
+    = form_tag team_collaborators_path, method: :get, remote: true do
+      %p.bold.medium COLLABORATORS
+      .row.no-margin
+        .input-field.col.s12.no-padding.search-input
+          %i.material-icons.prefix search
+          = text_field_tag :term, params[:term]
+          = label_tag :term, 'Search by name or last name or address or phone or email'
+      .row
+        .col.s12.no-padding
+          = button_tag :submit, "data-disable-with": "Searching ...", class: 'btn deep-purple accent-4 right' do
+            Search
+
+    = print_color_status
+
+    .overflow-x
+      %table.centered
+        %thead#table_header
+          = render 'table_header'
+        %tbody#collaborators_index
+          = render @collaborators
+
+    .top-space.center.pagination-from-table
+      = will_paginate @collaborators, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer
+
+= render 'shareds/modal_confirmation'

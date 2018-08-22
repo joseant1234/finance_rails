@@ -1,0 +1,3 @@
+$("#collaborators_index").html("<%= j render partial: 'collaborator', collection: @collaborators, as: :collaborator %>")
+$('.pagination-from-table').html('<%= j will_paginate @collaborators, renderer: MaterializePaginationCustomHelper::PaginateMaterailizeLinkRenderer %>')
+$("#table_header").html("<%= j render 'table_header' %>")

@@ -1,0 +1,37 @@
+= form_for [@team,@collaborator], remote: true do |f|
+  .row
+    .col.s12
+      %span.bold (*) Required fields
+
+  #errors.red-text.center.bold.hidden An error occured
+
+  .row.top-space
+    .input-field.col.s12.m4
+      = f.text_field :name, 'data-length': '50'
+      = f.label :name, 'Name (*)'
+      %small.red-text#name_error
+    .input-field.col.s12.m4
+      = f.text_field :last_name, 'data-length': '50'
+      = f.label :last_name, 'Last name (*)'
+      %small.red-text#last_name_error
+    .input-field.col.s12.m4
+      = f.text_field :phone, 'data-length': '10'
+      = f.label :phone, 'Phone'
+      %small.red-text#phone_error
+  .row
+    .input-field.col.s12.m4
+      = f.text_field :address, 'data-length': '50'
+      = f.label :address, 'Address'
+      %small.red-text#address_error
+    .input-field.col.s12.m4
+      = f.text_field :email, 'data-length': '50'
+      = f.label :email, 'Email'
+      %small.red-text#email_error
+    .col.12.m4
+      .file-field.input-field
+        .btn.deep-purple.accent-4
+          %span Photo
+          = f.file_field :photo
+        .file-path-wrapper
+          %input{type: 'text', class: 'file-path validate', value: @collaborator.photo.original_filename}
+      %small.red-text#photo_error= @collaborator.errors.full_messages_for(:photo).to_sentence

@@ -1,0 +1,48 @@
+.card.no-margin
+  .card-content
+
+    .row.border-collection
+      %nav.white.black-text.z-depth-0
+        .nav-wrapper
+          .col.s12
+            = link_to 'Teams',teams_path, class: "breadcrumb blue-text"
+            = link_to @collaborator.team.name, teams_path, class: "breadcrumb blue-text"
+            = link_to 'Collaborators', team_collaborators_path(@collaborator.team), class: "breadcrumb blue-text"
+            = link_to @collaborator.name,collaborator_path(@collaborator), class: "breadcrumb blue-text"
+            = link_to 'VIEW','', class: "breadcrumb black-text"
+
+    .row
+      .col.s12.m4
+        %span.bold Image
+      .col.s12.m4
+        = print_zoom_image(@collaborator.photo.url)
+
+    .row
+      .col.s12.m4
+        %span.bold Name:
+      .col.s12.m8
+        %span= @collaborator.name
+
+    .row
+      .col.s12.m4
+        %span.bold Last name:
+      .col.s12.m8
+        %span= @collaborator.last_name
+
+    .row
+      .col.s12.m4
+        %span.bold Address:
+      .col.s12.m8
+        %span= @collaborator.address.presence || '-'
+
+    .row
+      .col.s12.m4
+        %span.bold Phone:
+      .col.s12.m8
+        %span= @collaborator.phone.presence || '-'
+
+    .row
+      .col.s12.m4
+        %span.bold Email:
+      .col.s12.m8
+        %span= @collaborator.email

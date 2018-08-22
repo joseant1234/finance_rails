@@ -5,6 +5,8 @@ class Income < ApplicationRecord
   belongs_to :client
   belongs_to :country
   belongs_to :currency
+  belongs_to :team, optional: true
+  belongs_to :collaborator, optional: true
 
   enum state: [:pending, :paid, :overdued]
   enum source: [:invoice, :direct]

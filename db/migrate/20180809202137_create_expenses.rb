@@ -23,6 +23,9 @@ class CreateExpenses < ActiveRecord::Migration[5.1]
       t.references :bank, foreign_key: true
       t.references :currency, foreign_key: true
       t.datetime :expiration_at
+      t.references :team, foreign_key: true
+      t.references :collaborator, foreign_key: true
+      t.datetime :issue_at
 
       t.timestamps
     end
