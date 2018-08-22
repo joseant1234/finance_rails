@@ -16,6 +16,7 @@ class IncomesController < ApplicationController
     @incomes = @incomes.from_date(params[:from_date]).to_date(params[:to_date]).filter_by_country(params[:country])
     @incomes = @incomes.filter_by_currency(params[:currency]) unless params[:currency].blank?
     @incomes = @incomes.filter_by_state(params[:state]) unless params[:state].blank?
+    @incomes = @incomes.filter_by_source(params[:source]) unless params[:source].blank?
     @incomes = @incomes.paginate(per_page: 2, page: params[:page])
 
     respond_to do |f|

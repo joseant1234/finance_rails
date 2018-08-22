@@ -17,6 +17,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_state(params[:state]) unless params[:state].blank?
     @expenses = @expenses.filter_by_bank(params[:bank]) unless params[:bank].blank?
     @expenses = @expenses.filter_by_payment_type(params[:payment_type]) unless params[:payment_type].blank?
+    @expenses = @expenses.filter_by_source(params[:source]) unless params[:source].blank?
     @expenses = @expenses.paginate(per_page: 2, page: params[:page])
 
     respond_to do |f|

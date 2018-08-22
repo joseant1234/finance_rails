@@ -40,6 +40,10 @@ class Income < ApplicationRecord
     send(state)
   end
 
+  def self.filter_by_source(source)
+    send(source)
+  end
+
   def self.filter_by_country(country)
     joins(:country).where('LOWER(countries.name) = ?',country.try(:downcase) || 'Peru'.downcase).distinct
   end

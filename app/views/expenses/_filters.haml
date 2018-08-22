@@ -22,6 +22,9 @@
     .input-field.col.s12.m3
       = select_tag :bank, options_from_collection_for_select(@banks, :id, :name), prompt: 'Choose an option', class: 'send-filter'
       = label_tag :banks, 'By bank'
+    .input-field.col.s12.m3
+      = select_tag :source, options_for_select(class_enum_for_select('Expense','source')), prompt: 'Choose an option', class: 'send-filter'
+      = label_tag :source, 'By source'
 
   = hidden_field_tag :sort, params[:sort], id: 'sort_hidden'
   = hidden_field_tag :direction, params[:direction], id: 'direction_hidden'

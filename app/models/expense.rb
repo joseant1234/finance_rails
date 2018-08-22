@@ -45,6 +45,10 @@ class Expense < ApplicationRecord
     send(payment_type)
   end
 
+  def self.filter_by_source(source)
+    send(source)
+  end
+
   def self.filter_by_country(country)
     joins(:country).where('LOWER(countries.name) = ?',country.try(:downcase) || 'Peru'.downcase).distinct
   end
