@@ -1,7 +1,8 @@
 %tr{id: "#{dom_id income}", class: "#{color_state_of_income(income)} %>"}
+  %td= income.source.humanize
   %td= income.client.name
   %td= income.description
-  %td= income.amount
+  %td= "#{income.currency.code} #{income.amount}"
   %td= income.created_at.strftime("%Y/%m/%d")
   %td= income.billing_at.strftime("%Y/%m/%d")
   %td= income.state

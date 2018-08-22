@@ -3,7 +3,7 @@ module IncomeHelper
   def color_state_of_income(income)
     return 'amber' if income.pending?
     return 'green' if income.paid?
-    return 'red' if income.cancelled?
+    return 'red' if income.overdued?
   end
 
   def print_color_state_of_income
@@ -15,7 +15,7 @@ module IncomeHelper
       content_tag(:span, 'Paid', class: 'little-left-space') +
 
       content_tag(:div,nil, class: 'color-state red little-left-space')+
-      content_tag(:span, 'Cancelled', class: 'little-left-space')
+      content_tag(:span, 'Overdued', class: 'little-left-space')
     end
   end
 

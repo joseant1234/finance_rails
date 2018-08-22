@@ -11,7 +11,7 @@ class ExpensesController < ApplicationController
       load_currencies
     end
 
-    @expenses = Expense.includes(:provider)
+    @expenses = Expense.includes(:provider, :currency).order(sort_column + ' ' + sort_direction)
     @expenses = @expenses.from_date(params[:from_date]).to_date(params[:to_date]).filter_by_country(params[:country])
     @expenses = @expenses.filter_by_currency(params[:currency]) unless params[:currency].blank?
     @expenses = @expenses.filter_by_state(params[:state]) unless params[:state].blank?

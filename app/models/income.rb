@@ -6,7 +6,7 @@ class Income < ApplicationRecord
   belongs_to :country
   belongs_to :currency
 
-  enum state: [:pending, :paid, :cancelled]
+  enum state: [:pending, :paid, :overdued]
   enum source: [:invoice, :direct]
 
   validates :description, :amount, :billing_at, presence: true

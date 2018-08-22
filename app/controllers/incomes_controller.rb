@@ -12,7 +12,7 @@ class IncomesController < ApplicationController
       load_currencies
     end
 
-    @incomes = Income.includes(:client)
+    @incomes = Income.includes(:client, :currency).order(sort_column + ' ' + sort_direction)
     @incomes = @incomes.from_date(params[:from_date]).to_date(params[:to_date]).filter_by_country(params[:country])
     @incomes = @incomes.filter_by_currency(params[:currency]) unless params[:currency].blank?
     @incomes = @incomes.filter_by_state(params[:state]) unless params[:state].blank?

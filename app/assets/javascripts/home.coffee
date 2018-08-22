@@ -41,6 +41,15 @@ $(document).on 'change', '.source-select', ()->
   else if source
     $('.fields-with-invoice').fadeIn()
 
+$(document).on 'click', '.send-form-with-sortable', (ev)->
+  ev.preventDefault()
+  sort_column = $(this).data 'sort'
+  direction_column = $(this).data 'direction'
+  if sort_column && direction_column
+    $('#sort_hidden').val sort_column
+    $('#direction_hidden').val direction_column
+    Rails.fire(document.getElementById('search_form'), 'submit')
+
 init_datepicker = ->
   $('.datepicker').pickadate
     closeOnSelect: true

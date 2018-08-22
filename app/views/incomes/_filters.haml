@@ -16,3 +16,6 @@
     .input-field.col.s12.m3
       = select_tag :state, options_for_select(class_enum_for_select("Income","state")), prompt: 'Select a state', class: 'send-filter'
       = label_tag :state, 'By state'
+
+  = hidden_field_tag :sort, params[:sort], id: 'sort_hidden'
+  = hidden_field_tag :direction, params[:direction], id: 'direction_hidden'

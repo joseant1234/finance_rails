@@ -1,7 +1,8 @@
 %tr{id: "#{dom_id expense}", class: "#{color_state_of_expense(expense)} %>"}
+  %td= expense.source.humanize
   %td= expense.provider.name
   %td= expense.description
-  %td= expense.amount
+  %td= "#{expense.currency.code} #{expense.amount}"
   %td= expense.created_at.strftime("%Y/%m/%d")
   %td= expense.planned_payment_at.strftime("%Y/%m/%d")
   %td= expense.state

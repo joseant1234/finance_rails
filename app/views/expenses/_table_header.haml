@@ -1,8 +1,9 @@
 %tr.pretty
+  %th= sortable_with_multiple_filter 'source', 'Source'
   %th Provider
   %th Description
-  %th= sortable 'amount', 'Amount'
-  %th= sortable 'created_at', 'Creation Date'
-  %th= sortable 'planned_payment_at', 'Planned payment date'
+  %th= sortable_with_multiple_filter 'amount', 'Amount'
+  %th= sortable_with_multiple_filter 'created_at', 'Creation Date'
+  %th= sortable_with_multiple_filter 'planned_payment_at', 'Planned payment date'
   %th State
   %th Actions

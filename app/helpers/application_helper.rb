@@ -14,7 +14,14 @@ module ApplicationHelper
     title ||= column.titleize
     css_class = (column == sort_column) ? "current #{sort_direction}" : nil
     direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
-    link_to title, {:sort => column, :direction => direction, :term => params[:term]}, {:class => css_class, remote: true}
+    link_to title, {:sort => column, :direction => direction, :term => params[:term] }, {:class => css_class, remote: true}
+  end
+
+  def sortable_with_multiple_filter(column, title = nil)
+    title ||= column.titleize
+    css_class = (column == sort_column) ? "current #{sort_direction}" : nil
+    direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
+    content_tag(:a, title, href: '#', data: {sort: column, direction: direction}, class: "#{css_class} send-form-with-sortable", remote: true)
   end
 
   def print_color_status
