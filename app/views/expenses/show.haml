@@ -15,6 +15,12 @@
       .col.s12.m8
         %span= @expense.source.humanize
 
+    .row
+      .col.s12.m4
+        %span.bold State
+      .col.s12.m8
+        %span= @expense.state.humanize
+
     - if @expense.invoice?
       .row
         .col.s12.m4
