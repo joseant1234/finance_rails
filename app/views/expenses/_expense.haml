@@ -4,10 +4,10 @@
   %td= expense.description
   %td= "#{expense.currency.code} #{expense.amount}"
   %td= expense.created_at.strftime("%Y/%m/%d")
-  %td= expense.planned_payment_at.strftime("%Y/%m/%d")
+  %td= expense.planned_payment_at.try(:strftime,"%Y/%m/%d") || '-'
   %td= expense.state
   %td
-    = link_to "<i class='material-icons'>visibility</i>".html_safe, expense_path(expense)
-    = link_to "<i class='material-icons'>edit</i>".html_safe, edit_expense_path(expense)
+    = link_to "<i class='material-icons'>visibility</i>".html_safe, expense_path(expense), class: 'black-text'
+    = link_to "<i class='material-icons'>edit</i>".html_safe, edit_expense_path(expense), class: 'black-text'
     - if expense.pending?
       = link_to_pay(expense)

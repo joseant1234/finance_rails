@@ -11,9 +11,16 @@
 
     .row
       .col.s12.m4
-        %span.bold Invoice number:
+        %span.bold Source
       .col.s12.m8
-        %span= @expense.document_number
+        %span= @expense.source.humanize
+
+    - if @expense.invoice?
+      .row
+        .col.s12.m4
+          %span.bold Invoice number:
+        .col.s12.m8
+          %span= @expense.document_number
 
     .row
       .col.s12.m4
@@ -27,6 +34,26 @@
       .col.s12.m8
         %span= @expense.country.name
 
+    - if @expense.direct?
+      .row
+        .col.s12.m4
+          %span.bold Team name:
+        .col.s12.m8
+          %span= @expense.team.name
+
+      .row
+        .col.s12.m4
+          %span.bold Collaborator:
+        .col.s12.m8
+          %span= @expense.collaborator.try(:name) || '-'
+
+      .row
+        .col.s12.m4
+          %span.bold Issue date (yyy-mm-dd):
+        .col.s12.m8
+          %span= @expense.issue_at.strftime("%Y-%m-%d")
+
+
     .row
       .col.s12.m4
         %span.bold Description:
@@ -39,67 +66,68 @@
       .col.s12.m8
         %span= "#{@expense.currency.code} #{@expense.amount}"
 
-
-    .row
-      .col.s12.m4
-        %span.bold Planned payment date (yyyy-mm-dd):
-      .col.s12.m8
-        %span= @expense.planned_payment_at.strftime("%Y-%m-%d")
+    - if @expense.invoice?
+      .row
+        .col.s12.m4
+          %span.bold Planned payment date (yyyy-mm-dd):
+        .col.s12.m8
+          %span= @expense.planned_payment_at.try(:strftime,"%Y-%m-%d") || '-'
 
     .row
       .col.s12.m4
         %span.bold Transaction date (yyyy-mm-dd):
       .col.s12.m8
-        %span= @expense.transaction_at.try(:strftime,"%Y-%m-%d")
+        %span= @expense.transaction_at.try(:strftime,"%Y-%m-%d") || '-'
 
 
-    .row
-      .col.s12
-        %p.bold.medium.border-collection About payment
-
-    .row
-      .col.s12.m4
-        %span.bold Payment type:
-      .col.s12.m8
-        %span= @expense.payment_type.humanize
-
-    - if @expense.transference?
+    - if @expense.invoice?
       .row
-        .col.s12.m4
-          %span.bold Bank:
-        .col.s12.m8
-          %span= @expense.bank.try(:name) || '-'
+        .col.s12
+          %p.bold.medium.border-collection About payment
 
       .row
         .col.s12.m4
-          %span.bold Account number:
+          %span.bold Payment type:
         .col.s12.m8
-          %span= @expense.account_number.presence || '-'
+          %span= @expense.payment_type.humanize
 
-      .row
-        .col.s12.m4
-          %span.bold CCI:
-        .col.s12.m8
-          %span= @expense.cci.presence || '-'
+      - if @expense.transference?
+        .row
+          .col.s12.m4
+            %span.bold Bank:
+          .col.s12.m8
+            %span= @expense.bank.try(:name) || '-'
 
-      .row
-        .col.s12.m4
-          %span.bold Contact email:
-        .col.s12.m8
-          %span= @expense.contact_email.presence || '-'
+        .row
+          .col.s12.m4
+            %span.bold Account number:
+          .col.s12.m8
+            %span= @expense.account_number.presence || '-'
 
-    - elsif @expense.upon_delivery?
-      .row
-        .col.s12.m4
-          %span.bold Place of delivery:
-        .col.s12.m8
-          %span= @expense.place_of_delivery.presence || '-'
+        .row
+          .col.s12.m4
+            %span.bold CCI:
+          .col.s12.m8
+            %span= @expense.cci.presence || '-'
 
-      .row
-        .col.s12.m4
-          %span.bold Account number:
-        .col.s12.m8
-          %span= @expense.delivery_at.try(:strftime,"%Y-%m-%d") || '-'
+        .row
+          .col.s12.m4
+            %span.bold Contact email:
+          .col.s12.m8
+            %span= @expense.contact_email.presence || '-'
+
+      - elsif @expense.upon_delivery?
+        .row
+          .col.s12.m4
+            %span.bold Place of delivery:
+          .col.s12.m8
+            %span= @expense.place_of_delivery.presence || '-'
+
+        .row
+          .col.s12.m4
+            %span.bold Account number:
+          .col.s12.m8
+            %span= @expense.delivery_at.try(:strftime,"%Y-%m-%d") || '-'
 
     - if @expense.with_fee == true
       .row

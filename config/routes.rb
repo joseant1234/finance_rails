@@ -29,11 +29,12 @@ Rails.application.routes.draw do
   resources :expenses, except: [:destroy] do
     collection do
       get 'provider_information'
+      get 'collaborators_information'
     end
     member do
       put 'pay'
     end
-    resources :fees, shallow: true
+    resources :fees, shallow: true, except: [:destroy]
   end
 
   resources :incomes, except: [:destroy] do

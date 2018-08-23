@@ -18,7 +18,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_bank(params[:bank]) unless params[:bank].blank?
     @expenses = @expenses.filter_by_payment_type(params[:payment_type]) unless params[:payment_type].blank?
     @expenses = @expenses.filter_by_source(params[:source]) unless params[:source].blank?
-    @expenses = @expenses.paginate(per_page: 2, page: params[:page])
+    @expenses = @expenses.paginate(per_page: 30, page: params[:page])
 
     respond_to do |f|
       f.html { render :index }
@@ -36,6 +36,7 @@ class ExpensesController < ApplicationController
     load_providers
     load_banks
     load_currencies
+    load_teams
   end
 
   def create
@@ -47,6 +48,8 @@ class ExpensesController < ApplicationController
       load_providers
       load_banks
       load_currencies
+      load_teams
+      load_collaborators(expense_params[:team_id])
       render :new
     end
   end
@@ -56,6 +59,8 @@ class ExpensesController < ApplicationController
     load_providers
     load_banks
     load_currencies
+    load_teams
+    load_collaborators(@expense.team_id)
   end
 
   def update
@@ -66,6 +71,7 @@ class ExpensesController < ApplicationController
       load_providers
       load_banks
       load_currencies
+      load_teams
       render :edit
     end
   end
@@ -81,6 +87,11 @@ class ExpensesController < ApplicationController
   def provider_information
     @provider = Provider.find_by_id(params[:provider_id])
     render :provider_information, layout: false
+  end
+
+  def collaborators_information
+    load_collaborators(params[:team_id])
+    render :collaborators_information, layout: false
   end
 
   private
@@ -99,6 +110,7 @@ class ExpensesController < ApplicationController
   def expense_params
     params.require(:expense).permit(:provider_id, :country_id, :document_number,
                                     :source, :description, :currency_id, :amount,
+                                    :team_id, :collaborator_id, :issue_at,
                                     :planned_payment_at, :with_fee, :payment_type,
                                     :account_number, :cci, :contact_email,
                                     :place_of_delivery, :delivery_at, :bank_id,

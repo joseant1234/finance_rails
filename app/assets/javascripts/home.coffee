@@ -38,8 +38,10 @@ $(document).on 'change', '.source-select', ()->
   source = $(this).val()
   if source && source == 'direct'
     $('.fields-with-invoice').fadeOut()
+    $('.fields-with-direct').fadeIn()
   else if source
     $('.fields-with-invoice').fadeIn()
+    $('.fields-with-direct').fadeOut()
 
 $(document).on 'click', '.send-form-with-sortable', (ev)->
   ev.preventDefault()

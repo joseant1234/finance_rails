@@ -9,6 +9,12 @@ $(document).on 'change', '.provider-select' , ()->
   if provider_id and action
     $.get action, { provider_id: provider_id}, null, 'script'
 
+$(document).on 'change', '.team-select', ()->
+  team_id = $(this).val()
+  action = $('#collaborators_information_link').attr('href')
+  if team_id and action
+    $.get action, { team_id: team_id}, null, 'script'
+
 $(document).on 'change', '.with-fee-toggle', ()->
   if $(this).prop('checked')
     $('.fees-container').fadeIn()

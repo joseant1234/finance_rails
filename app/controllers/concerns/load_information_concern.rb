@@ -28,5 +28,17 @@ module LoadInformationConcern extend ActiveSupport::Concern
     @countries = Country.where(id: Income.select(:country_id) ).or(Country.where(name: 'Peru')).order_by_name
   end
 
+  def load_teams
+    @teams = Team.order_by_name
+  end
+
+  def load_collaborators(team_id = nil)
+    if team_id.blank?
+      @collaborators = Collaborator.order_by_name
+    else
+      @collaborators = Collaborator.by_team(team_id).order_by_name
+    end
+  end
+
 
 end

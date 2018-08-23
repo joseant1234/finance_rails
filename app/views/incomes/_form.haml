@@ -71,14 +71,31 @@
   .row
     .input-field.col.s12.m4
       = f.text_field :purchase_order_number
-      = f.label :purchase_order_number, class: 'active'
+      = f.label :purchase_order_number, 'Purchase order number (*)', class: 'active'
       %small.red-text#purchase_order_number_error= @income.errors.full_messages_for(:purchase_order_number).to_sentence
     .input-field.col.s12.m4
       = f.text_field :billing_at, class: 'datepicker', value: @income.billing_at.try(:strftime,"%Y-%m-%d")
       = f.label :billing_at, 'Billing at (*)', class: 'active'
       %small.red-text#billing_at_error= @income.errors.full_messages_for(:billing_at).to_sentence
     .input-field.col.s12.m4
+      = f.text_field :expiration_at, class: 'datepicker', value: @income.expiration_at.try(:strftime,"%Y-%m-%d")
+      = f.label :expiration_at, 'Expiration at (*)', class: 'active'
+      %small.red-text#expiration_at_error= @income.errors.full_messages_for(:expiration_at).to_sentence
+
+  .row
+    .col.s12.m4
+      = f.check_box :drawdown_seal
+      = f.label :drawdown_seal
+  .row
+    .input-field.col.s12.m4
       = f.select :state, class_enum_for_select("Income","state"), {}, class: 'send-filter'
       = label_tag :state, 'State(*)'
       %small.red-text#state_error= @income.errors.full_messages_for(:state).to_sentence
+    .input-field.col.s12.m4
+      = f.text_area :message, class: 'materialize-textarea'
+      = f.label :message
+    .input-field.col.s12.m4
+      = f.text_area :reason, class: 'materialize-textarea'
+      = f.label :reason
+
 

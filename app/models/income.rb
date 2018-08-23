@@ -11,7 +11,7 @@ class Income < ApplicationRecord
   enum state: [:pending, :paid, :overdued]
   enum source: [:invoice, :direct]
 
-  validates :description, :amount, :billing_at, presence: true
+  validates :description, :amount, :billing_at, :expiration_at, presence: true
   validates :invoice_copy, :purchase_order, :invoice_number,
             :purchase_order_number, presence: true, if: :invoice?
 

@@ -1,0 +1,6 @@
+<% if @collaborators.present? %>
+  $('#collaboration_information .input-field').html("<%= j render 'collaborators_information' %>")
+  $('#collaboration_information').fadeIn()
+  $('select').material_select()
+  Materialize.updateTextFields()
+<% end %>

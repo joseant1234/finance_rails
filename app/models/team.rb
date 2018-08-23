@@ -1,4 +1,7 @@
 class Team < ApplicationRecord
+
+  include SortableConcern
+
   has_many :collaborators
 
   enum status: [:active, :desactive]

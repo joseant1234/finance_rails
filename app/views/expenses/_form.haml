@@ -15,27 +15,53 @@
       = f.text_field :document_number, data: { length: '50' }
       = f.label :document_number, 'Document number (*)', class: 'active'
       %small.red-text#document_number_error= @expense.errors.full_messages_for(:document_number).to_sentence
+  .row
+    .col.s12
+      %span.bold.border-collection Provider information
+
+  .row
     .input-field.col.s12.m4
       = f.select :provider_id, options_from_collection_for_select(@providers,:id,:name,@expense.provider_id), {prompt: 'Choose an option'}, class: 'provider-select'
       = f.label :provider_id, 'Provider (*)'
       %small.red-text#provider_error= @expense.errors.full_messages_for(:provider).to_sentence
       = link_to 'More', provider_information_expenses_path, remote: true, class: 'hidden', id: 'provider_information_link'
-
-  .row
     .input-field.col.s12.m3
       = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@expense.country_id),{ prompt: 'Choose an option' }, class: 'country-select'
       = f.label :country_id, 'Country (*)'
       %small.red-text#country_error= @expense.errors.full_messages_for(:country).to_sentence
-    #provider_information{class: "#{'hidden' unless @expense.provider_id.present?}" }
+    #provider_information.inline{class: "#{'hidden' unless @expense.provider_id.present?}" }
       .input-field.col.s12.m3
         = text_field_tag :ruc, @expense.provider.try(:ruc), class: 'ruc-field', disabled: true
         = label_tag :ruc, 'Provider RUC'
+      .row
+        .input-field.col.s12.m3
+          = text_field_tag :address, @expense.provider.try(:address), class: 'address-field', disabled: true
+          = label_tag :address, 'Provider address'
+        .input-field.col.s12.m3
+          = text_field_tag :phone, @expense.provider.try(:phone), class: 'phone-field', disabled: true
+          = label_tag :phone, 'Provider phone'
+
+  .fields-with-direct{class: "#{'hidden' unless @expense.direct?}"}
+    .row
+      .col.s12
+        %span.bold.border-collection Team information
+    .row
       .input-field.col.s12.m3
-        = text_field_tag :address, @expense.provider.try(:address), class: 'address-field', disabled: true
-        = label_tag :address, 'Provider address'
+        = f.select :team_id, options_from_collection_for_select(@teams,:id,:name,@expense.team_id), { prompt: 'Choose an option' }, class: 'team-select'
+        = f.label :team_id, 'Team (*)'
+        %small.red-text#team_error= @expense.errors.full_messages_for(:team).to_sentence
+        = link_to 'More', collaborators_information_expenses_path, remote: true, class: 'hidden', id: 'collaborators_information_link'
+      #collaboration_information{class: "#{'hidden' unless @expense.team_id.present?}"}
+        .input-field.col.s12.m3
+          = render partial: 'collaborators_information', locals: { f: f }
+
       .input-field.col.s12.m3
-        = text_field_tag :phone, @expense.provider.try(:phone), class: 'phone-field', disabled: true
-        = label_tag :phone, 'Provider phone'
+        = f.text_field :issue_at, class: 'datepicker', value: "#{@expense.issue_at.try(:strftime,'%Y-%m-%d')}"
+        = f.label :issue_at, 'Issue date (*)', class: 'active'
+        %small.red-text#issue_at= @expense.errors.full_messages_for(:issue_at).to_sentence
+  .row
+    .col.s12
+      %span.bold.border-collection General information
 
   .row
     .input-field.col.s12.m4
@@ -85,7 +111,7 @@
   %div{class: "fields-with-invoice #{'hidden' if @expense.direct? }"}
     %div{class: "row transference-container #{'hidden' unless @expense.transference?}"}
       .input-field.col.s12.m3
-        = f.select :bank_id, options_from_collection_for_select(@banks,:id,:name,@expense.bank_id)
+        = f.select :bank_id, options_from_collection_for_select(@banks,:id,:name,@expense.bank_id), { prompt: 'Choose an option'}
         = f.label :bank_id
       .input-field.col.s12.m3
         = f.text_field :account_number

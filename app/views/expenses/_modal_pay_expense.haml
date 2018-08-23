@@ -1,7 +1,7 @@
 .modal#modalPayExpense
   .modal-content
     %h4 Pay Expense
-    = form_tag '', method: :put, remote: true, id: 'pay_expense_form' do
+    = form_tag '', method: :put, remote: true, multipart: true, id: 'pay_expense_form' do
       #errors.red-text.center.bold.hidden An error occured
       .row
         .input-field.col.s12.m6

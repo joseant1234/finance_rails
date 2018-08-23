@@ -17,7 +17,7 @@ class IncomesController < ApplicationController
     @incomes = @incomes.filter_by_currency(params[:currency]) unless params[:currency].blank?
     @incomes = @incomes.filter_by_state(params[:state]) unless params[:state].blank?
     @incomes = @incomes.filter_by_source(params[:source]) unless params[:source].blank?
-    @incomes = @incomes.paginate(per_page: 2, page: params[:page])
+    @incomes = @incomes.paginate(per_page: 30, page: params[:page])
 
     respond_to do |f|
       f.html { render :index }
@@ -104,7 +104,8 @@ class IncomesController < ApplicationController
   def income_params
     params.require(:income).permit(:income_id, :country_id, :invoice_number, :client_id,
                                     :source, :description, :currency_id, :amount,
-                                    :billing_at, :purchase_order, :purchase_order_number,
-                                    :invoice_copy, :state)
+                                    :billing_at, :expiration_at, :purchase_order,
+                                    :purchase_order_number,:invoice_copy, :state,
+                                    :message, :reason, :drawdown_seal)
   end
 end
