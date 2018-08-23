@@ -69,7 +69,7 @@
       .col.s12.m8
         %span
           - if @income.invoice_copy.present?
-            = link_to @income.invoice_copy.original_filename, download_income_path(@income,document: 'invoice_copy')
+            = link_to @income.invoice_copy.original_filename, download_income_path(@income,document: 'invoice_copy'), target: '_blank'
           - else
             -
 
@@ -79,7 +79,7 @@
       .col.s12.m8
         %span
         - if @income.purchase_order.present?
-          = link_to @income.purchase_order.original_filename, download_income_path(@income,document: 'purchase_order')
+          = link_to @income.purchase_order.original_filename, download_income_path(@income,document: 'purchase_order'), target: '_blank'
         -else
           -
 

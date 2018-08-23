@@ -1,4 +1,13 @@
 $("#modalFee").html("<%= j render 'edit' %>")
 $("#modalFee").modal('open')
 
+
 Materialize.updateTextFields()
+$('.datepicker').pickadate({
+  closeOnSelect: true,
+  format: 'yyyy-mm-dd',
+  formatSubmit: 'yyyy-mm-dd',
+  hiddenName: true,
+  selectYears: 15,
+  selectMonths: true,
+})

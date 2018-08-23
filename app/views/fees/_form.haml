@@ -1,24 +1,30 @@
 = form_for @fee, remote: true, multipart: true do |f|
- .row
+  .row
     .col.s12
       %span.bold (*) Required fields
 
   #errors.red-text.center.bold.hidden An error occured
+
   .row
     .input-field.col.s12.m3
       = f.number_field :amount, step: 'any'
       = f.label :amount, 'Amount (*)'
       %small.red-text#amount_error
     .input-field.col.s12.m3
-      = f.date_field :planned_payment_at
+      = f.text_field :planned_payment_at, class: 'datepicker', value: @fee.planned_payment_at.strftime('%Y-%m-%d')
       = f.label :planned_payment_at, 'Planned payment at (*)', class: 'active'
       %small.red-text#planned_payment_at_error
     .input-field.col.s12.m3
-      = f.date_field :transaction_at
+      = f.text_field :transaction_at, class: 'datepicker', value: @fee.transaction_at.try(:strftime,'%Y-%m-%d')
       = f.label :transaction_at, 'Transaction at (*)', class: 'active'
       %small.red-text#transaction_at_error
+
   .row
-    .input.field.col.s12.m3
-      = f.file_field :document
-      = f.label :document
-      %small.red-text#document_error
+    .input.field.col.s12
+      .file-field.input-field
+        .btn.deep-purple.accent-4
+          %span Invoice copy
+          = f.file_field :document
+        .file-path-wrapper
+          %input{type: 'text', class: 'file-path validate', value: @fee.document.original_filename}
+      %small.red-text#document_error= @fee.errors.full_messages_for(:document).to_sentence

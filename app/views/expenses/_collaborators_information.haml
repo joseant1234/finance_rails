@@ -1,6 +1,6 @@
 - if @expense.blank? || (@expense.id.blank? && @collaborators.present?)
   = select_tag 'expense[collaborator_id]'.to_sym, options_from_collection_for_select(@collaborators,:id,:display_full_name, params[:expense].present? ? params[:expense][:collaborator_id] : nil), { prompt: 'Choose an option' }
   = label_tag 'expense[collaborator_id]'.to_sym, 'Collaborator'
-- elsif f.present? && @expense.id.present?
+- elsif f.present? && @expense.id.present? && @expense.direct?
   = f.select :collaborator_id, options_from_collection_for_select(@collaborators,:id,:display_full_name, @expense.collaborator_id), { include_blank: 'Choose an option' }
   = f.label :collaborator_id, 'Collaborator'

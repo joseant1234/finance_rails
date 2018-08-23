@@ -29,17 +29,16 @@
       = f.select :country_id, options_from_collection_for_select(@countries,:id,:name,@expense.country_id),{ prompt: 'Choose an option' }, class: 'country-select'
       = f.label :country_id, 'Country (*)'
       %small.red-text#country_error= @expense.errors.full_messages_for(:country).to_sentence
-    #provider_information.inline{class: "#{'hidden' unless @expense.provider_id.present?}" }
-      .input-field.col.s12.m3
-        = text_field_tag :ruc, @expense.provider.try(:ruc), class: 'ruc-field', disabled: true
-        = label_tag :ruc, 'Provider RUC'
-      .row
-        .input-field.col.s12.m3
-          = text_field_tag :address, @expense.provider.try(:address), class: 'address-field', disabled: true
-          = label_tag :address, 'Provider address'
-        .input-field.col.s12.m3
-          = text_field_tag :phone, @expense.provider.try(:phone), class: 'phone-field', disabled: true
-          = label_tag :phone, 'Provider phone'
+  .row#provider_information.inline{class: "#{'hidden' unless @expense.provider_id.present?}" }
+    .input-field.col.s12.m3
+      = text_field_tag :ruc, @expense.provider.try(:ruc), class: 'ruc-field', disabled: true
+      = label_tag :ruc, 'Provider RUC'
+    .input-field.col.s12.m3
+      = text_field_tag :address, @expense.provider.try(:address), class: 'address-field', disabled: true
+      = label_tag :address, 'Provider address'
+    .input-field.col.s12.m3
+      = text_field_tag :phone, @expense.provider.try(:phone), class: 'phone-field', disabled: true
+      = label_tag :phone, 'Provider phone'
 
   .fields-with-direct{class: "#{'hidden' unless @expense.direct?}"}
     .row
@@ -64,24 +63,41 @@
       %span.bold.border-collection General information
 
   .row
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.text_field :description, data: { length: '200'}
       = f.label :description, 'Description (*)', class: 'active'
       %small.red-text#description_error= @expense.errors.full_messages_for(:description).to_sentence
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.select :currency_id, options_from_collection_for_select(@currencies,:id,:name,@expense.currency_id)
       = f.label :currency_id, 'Currency (*)'
       %small.red-text#currency_error= @expense.errors.full_messages_for(:currency).to_sentence
-    .input-field.col.s12.m4
+    .input-field.col.s12.m3
       = f.number_field :amount, step: 'any', class: 'amout-field'
       = f.label :amount, 'Amount included IGV(*)', class: 'active'
       %small.red-text#amount_error= @expense.errors.full_messages_for(:amount).to_sentence
+    .input-field.col.s12.m3
+      = f.select :state, class_enum_for_select("Expense","state"), {}, class: 'state-select-income'
+      = label_tag :state, 'State(*)'
 
-  .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
-    .input-field.col.s12.m4
+  .row
+    .input-field.col.12.m3.transaction-at-wrapper-income{class: "#{'hidden' unless @expense.paid? }"}
+      = f.text_field :transaction_at, class: 'datepicker', value: @expense.transaction_at.try(:strftime,"%Y-%m-%d")
+      = f.label :transaction_at, 'Transaction at (*)', class: 'active'
+      %small.red-text#transaction_at_error= @expense.errors.full_messages_for(:transaction_at).to_sentence
+    .input-field.col.s12.m3.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
       = f.text_field :planned_payment_at, class: 'datepicker', value: @expense.planned_payment_at.try(:strftime,"%Y-%m-%d")
       = f.label :planned_payment_at, 'Planned payment at (*)', class: 'active'
       %small.red-text#planned_payment_at_error= @expense.errors.full_messages_for(:planned_payment_at).to_sentence
+  .row
+    .col.s12.m6
+      .file-field.input-field
+        .btn.deep-purple.accent-4
+          %span Document
+          = f.file_field :transaction_document
+        .file-path-wrapper
+          %input{type: 'text', class: 'file-path validate', value: @expense.transaction_document.original_filename}
+      %small.red-text#invoice_copy_error= @expense.errors.full_messages_for(:transaction_document).to_sentence
+
 
   .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
     .col.s12.m2

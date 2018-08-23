@@ -21,6 +21,8 @@ class Income < ApplicationRecord
   has_attached_file :purchase_order, default_url: "/images/default.png"
   validates_attachment_content_type :purchase_order, content_type: /\Aimage\/.*\z/
 
+  before_save :set_transaction_at
+
 
   def self.from_date(from_date)
     if from_date.present?
@@ -72,6 +74,11 @@ class Income < ApplicationRecord
 
   def amount_decimal
     number_with_precision(amount, :precision => 2) || 0
+  end
+
+  private
+  def set_transaction_at
+    self.transaction_at = nil if self.overdued?
   end
 
 

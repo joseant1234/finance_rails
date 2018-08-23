@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     end
     member do
       put 'pay'
+      get 'download'
     end
     resources :fees, shallow: true, except: [:destroy]
   end

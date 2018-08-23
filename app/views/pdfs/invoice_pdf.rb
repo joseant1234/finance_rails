@@ -83,9 +83,9 @@ class InvoicePDF < Prawn::Document
 
     bounding_box([320, 350], :width => 180, :height => 80) do
       text "Sub Total", size: 13, style: :bold
-      if @invoice.country.name == 'Peru'
-        text "IGV", size: 13, style: :bold
-      end
+      # if @invoice.country.name == 'Peru'
+      #   text "IGV", size: 13, style: :bold
+      # end
       text " "
       text " "
       text "TOTAL", size: 13, style: :bold
@@ -93,9 +93,9 @@ class InvoicePDF < Prawn::Document
 
     bounding_box([425, 350], :width => 270, :height => 80) do
       text "#{@invoice.currency.code} #{@invoice.amount_decimal}", size: 13
-      if @invoice.country.name == 'Peru'
-        text "#{@invoice.currency.code} #{@invoice.igv_amount}", size: 13
-      end
+      # if @invoice.country.name == 'Peru'
+      #   text "#{@invoice.currency.code} #{@invoice.igv_amount}", size: 13
+      # end
       text "_____________", size: 13
       text " "
       text "#{@invoice.currency.code} #{@invoice.amount_decimal}", size: 13

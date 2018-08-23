@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_expense, only: [:show, :edit, :update, :pay]
+  before_action :set_expense, only: [:show, :edit, :update, :pay, :download]
 
   helper_method :sort_column, :sort_direction
 
@@ -49,7 +49,7 @@ class ExpensesController < ApplicationController
       load_banks
       load_currencies
       load_teams
-      load_collaborators(expense_params[:team_id])
+      load_collaborators(expense_params[:team_id]) if @expense.direct?
       render :new
     end
   end
@@ -60,7 +60,7 @@ class ExpensesController < ApplicationController
     load_banks
     load_currencies
     load_teams
-    load_collaborators(@expense.team_id)
+    load_collaborators(@expense.team_id) if @expense.direct?
   end
 
   def update
@@ -72,6 +72,7 @@ class ExpensesController < ApplicationController
       load_banks
       load_currencies
       load_teams
+      load_collaborators(@expense.team_id) if @expense.direct?
       render :edit
     end
   end
@@ -81,6 +82,14 @@ class ExpensesController < ApplicationController
       render :pay, layout: false
     else
       render partial: 'errors/errors', locals: { resource: @expense }
+    end
+  end
+
+  def download
+     if @expense.transaction_document.present?
+      send_file @expense.transaction_document.path, filename: @expense.transaction_document.original_filename
+    else
+      render nothing: true, status: 204, notice: "Nothing to download"
     end
   end
 
@@ -110,10 +119,11 @@ class ExpensesController < ApplicationController
   def expense_params
     params.require(:expense).permit(:provider_id, :country_id, :document_number,
                                     :source, :description, :currency_id, :amount,
-                                    :team_id, :collaborator_id, :issue_at,
-                                    :planned_payment_at, :with_fee, :payment_type,
-                                    :account_number, :cci, :contact_email,
-                                    :place_of_delivery, :delivery_at, :bank_id,
+                                    :team_id, :collaborator_id, :issue_at, :state,
+                                    :planned_payment_at, :transaction_at, :with_fee,
+                                    :transaction_document, :payment_type,:account_number,
+                                    :cci, :contact_email, :place_of_delivery,
+                                    :delivery_at, :bank_id,
                                     fees_attributes: [:id, :amount, :planned_payment_at, :_destroy])
   end
 

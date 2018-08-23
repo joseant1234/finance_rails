@@ -24,6 +24,8 @@ class Expense < ApplicationRecord
 
   accepts_nested_attributes_for :fees, allow_destroy: true
 
+  before_save :set_transaction_at
+
   def self.from_date(from_date)
     if from_date.present?
       where("expenses.created_at >= ?", from_date.to_datetime)
@@ -87,6 +89,11 @@ class Expense < ApplicationRecord
 
   def pay(amount, transaction_at, transaction_document)
     self.update({ amount: amount, transaction_at: transaction_at, transaction_document: transaction_document, state: 'paid' })
+  end
+
+  private
+  def set_transaction_at
+    self.transaction_at = nil if self.overdued?
   end
 
 

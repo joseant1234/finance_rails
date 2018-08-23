@@ -79,6 +79,16 @@
       .col.s12.m8
         %span= @expense.transaction_at.try(:strftime,"%Y-%m-%d") || '-'
 
+    .row
+      .col.s12.m4
+        %span.bold Transaction document:
+      .col.s12.m8
+        %span
+          - if @expense.transaction_document.present?
+            = link_to @expense.transaction_document.original_filename, download_expense_path(@expense), target: '_blank'
+          - else
+            = '-'
+
 
     - if @expense.invoice?
       .row
@@ -125,7 +135,7 @@
 
         .row
           .col.s12.m4
-            %span.bold Account number:
+            %span.bold Delivery date:
           .col.s12.m8
             %span= @expense.delivery_at.try(:strftime,"%Y-%m-%d") || '-'
 
@@ -145,4 +155,13 @@
             %span.bold Planned payment date:
           .col.s12.m8
             %span= fee.planned_payment_at
+        .row
+          .col.s12.m4
+            %span.bold Document:
+          .col.s12.m8
+            %span
+              - if fee.document.present?
+                = link_to fee.document.original_filename, fee_path(fee), target: '_blank'
+              - else
+                = '-'
 

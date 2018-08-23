@@ -4,12 +4,12 @@
   %td= fee.transaction_at.presence || '-'
   %td
     - if fee.document.present?
-      = link_to fee.document.original_filename, fee_path(fee)
+      = link_to fee.document.original_filename, fee_path(fee), target: '_blank'
     - else
       %span -
   %td= fee.is_paid?.humanize
   %td
     - if !fee.is_paid?
-      = link_to "<i class='material-icons'>edit<i>".html_safe, edit_fee_path(fee), remote: true
+      = link_to "<i class='material-icons'>monetization_on<i>".html_safe, edit_fee_path(fee), remote: true, class: 'green-text'
     - else
       %span -

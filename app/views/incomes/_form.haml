@@ -48,7 +48,7 @@
       %small.red-text#currency_error= @income.errors.full_messages_for(:currency).to_sentence
     .input-field.col.s12.m4
       = f.number_field :amount, step: 'any', class: 'amout-field'
-      = f.label :amount, 'Total (*)', class: 'active'
+      = f.label :amount, 'Amount included IGV(*)', class: 'active'
       %small.red-text#amount_error= @income.errors.full_messages_for(:amount).to_sentence
   .row
     .col.s12.m6
