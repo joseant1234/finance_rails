@@ -40,5 +40,9 @@ module LoadInformationConcern extend ActiveSupport::Concern
     end
   end
 
+  def load_categories
+    @categories = Category.all
+  end
+
 
 end

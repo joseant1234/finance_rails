@@ -1,3 +1,12 @@
+$(document).on 'turbolinks:load', ()->
+  data = {}
+  $('#categories_expense p').each (element)->
+    obj = {}
+    obj[$(this).text()] = null
+    Object.assign data, obj
+  $('input.autocomplete-categories-expenses').autocomplete
+    data: data
+    
 # $(document).on 'keyup', '.amout-field', ()->
 #   amount = $(this).val()
 #   $('.igv-field').val(amount * 0.18)

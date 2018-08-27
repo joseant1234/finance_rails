@@ -15,6 +15,14 @@
       = f.text_field :document_number, data: { length: '50' }
       = f.label :document_number, 'Document number (*)', class: 'active'
       %small.red-text#document_number_error= @expense.errors.full_messages_for(:document_number).to_sentence
+    .input-field.col.s12.m4.autocomplete-wrapper
+      = text_field_tag :category_name,param_or_resource(params[:category_name],:category,@expense,:name), class: 'autocomplete-categories-expenses autocomplete', autocomplete: 'off'
+      = label_tag :category_name, 'Category', class: 'active'    
+
+      #categories_expense.hidden
+        - @categories.each do |category|
+          %p{'data-id': category.id}= category.name
+
   .row
     .col.s12
       %span.bold.border-collection Provider information

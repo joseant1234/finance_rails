@@ -49,4 +49,10 @@ Rails.application.routes.draw do
   end
 
   resources :parameters, except: [:new, :create, :destroy]
+
+  resources :categories, except: [:destroy] do
+    member do
+      put 'status'
+    end
+  end
 end

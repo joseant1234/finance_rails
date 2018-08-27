@@ -9,6 +9,7 @@ class ExpensesController < ApplicationController
       load_countries_with_expense
       load_banks
       load_currencies
+      load_categories
     end
 
     @expenses = Expense.includes(:provider, :currency).order(sort_column + ' ' + sort_direction)
@@ -18,6 +19,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_bank(params[:bank]) unless params[:bank].blank?
     @expenses = @expenses.filter_by_payment_type(params[:payment_type]) unless params[:payment_type].blank?
     @expenses = @expenses.filter_by_source(params[:source]) unless params[:source].blank?
+    @expenses = @expenses.filter_by_category(params[:category]) unless params[:category].blank?
     @expenses = @expenses.paginate(per_page: 30, page: params[:page])
 
     respond_to do |f|
@@ -37,11 +39,12 @@ class ExpensesController < ApplicationController
     load_banks
     load_currencies
     load_teams
+    load_categories
   end
 
   def create
     @expense = Expense.new(expense_params)
-    if @expense.save
+    if @expense.save_with_category(params[:category_name])
       redirect_to expenses_path, notice: 'Successfully created'
     else
       load_countries
@@ -50,6 +53,7 @@ class ExpensesController < ApplicationController
       load_currencies
       load_teams
       load_collaborators(expense_params[:team_id]) if @expense.direct?
+      load_categories
       render :new
     end
   end
@@ -61,10 +65,11 @@ class ExpensesController < ApplicationController
     load_currencies
     load_teams
     load_collaborators(@expense.team_id) if @expense.direct?
+    load_categories
   end
 
   def update
-    if @expense.update(expense_params)
+    if @expense.update_with_category(expense_params, params[:category_name])
       redirect_to expenses_path, notice: 'Successfully updated'
     else
       load_countries
@@ -73,6 +78,7 @@ class ExpensesController < ApplicationController
       load_currencies
       load_teams
       load_collaborators(@expense.team_id) if @expense.direct?
+      load_categories
       render :edit
     end
   end
