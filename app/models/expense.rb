@@ -59,11 +59,11 @@ class Expense < ApplicationRecord
   end
 
   def self.filter_by_bank(bank)
-    where('expenses.bank_id = ?',bank).distinct
+    where('expenses.bank_id = ?',bank)
   end
 
   def self.filter_by_currency(currency)
-    joins(:currency).where('currencies.id = ?',currency).distinct
+    where('expenses.currency_id = ?',currency)
   end
 
   def self.calculate_total_soles

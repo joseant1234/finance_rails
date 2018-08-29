@@ -53,7 +53,7 @@ class Income < ApplicationRecord
   end
 
   def self.filter_by_currency(currency)
-    joins(:currency).where('currencies.id = ?',currency).distinct
+    where('incomes.currency_id = ?',currency)
   end
 
   def self.calculate_total_soles
