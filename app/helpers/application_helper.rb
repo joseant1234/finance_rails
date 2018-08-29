@@ -77,4 +77,9 @@ module ApplicationHelper
     end
   end
 
+  def param_or_resource(param,parent,resource,attr)
+    return param if param.present?
+    return resource.send(parent).send(attr) if resource.send(parent).present?
+  end
+
 end

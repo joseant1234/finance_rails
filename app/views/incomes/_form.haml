@@ -1,7 +1,7 @@
 = form_for @income, multipart: true do |f|
   .row
     .col.s12
-      %span.bold (*) Required fields
+      %span.bold (*) Required field
 
   - if @income.errors.any?
     #errors.red-text.center.bold An error occured

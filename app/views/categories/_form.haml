@@ -1,0 +1,12 @@
+= form_for @category, remote: true do |f|
+  .row
+    .col.s12
+      %span.bold (*) Required field
+
+  #errors.red-text.center.bold.hidden An error occured
+
+  .row
+    .input-field.col.s12
+      = f.text_field :name, 'data-length': '50'
+      = f.label :name, 'Name (*)'
+      %small.red-text#name_error

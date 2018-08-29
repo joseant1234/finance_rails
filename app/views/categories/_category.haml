@@ -1,0 +1,6 @@
+%tr{id: "#{dom_id category}", class: "#{color_tr(category)}"}
+  %td= category.name
+  %td
+    = link_to edit_category_path(category), remote: true, class: 'black-text' do
+      %i.material-icons edit
+    = link_status(category)

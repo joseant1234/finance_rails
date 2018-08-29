@@ -21,6 +21,12 @@
       .col.s12.m8
         %span= @expense.state.humanize
 
+    .row
+      .col.s12.m4
+        %span.bold Category
+      .col.s12.m8
+        %span= @expense.category.try(:name) || '-'
+
     - if @expense.invoice?
       .row
         .col.s12.m4

@@ -7,6 +7,7 @@ class Expense < ApplicationRecord
   belongs_to :bank, optional: true
   belongs_to :currency
   belongs_to :team, optional: true
+  belongs_to :category, optional: true
   belongs_to :collaborator, optional: true
   has_many :fees
 
@@ -66,6 +67,10 @@ class Expense < ApplicationRecord
     where('expenses.currency_id = ?',currency)
   end
 
+  def self.filter_by_category(category)
+    joins(:category).where('categories.id = ?',category).distinct
+  end
+
   def self.calculate_total_soles
     where(currency_id: Currency.find_by_code('PEN')).sum("expenses.amount")
   end
@@ -89,6 +94,16 @@ class Expense < ApplicationRecord
 
   def pay(amount, transaction_at, transaction_document)
     self.update({ amount: amount, transaction_at: transaction_at, transaction_document: transaction_document, state: 'paid' })
+  end
+
+  def save_with_category(category)
+    self.category = Category.find_by_name(category)
+    self.save
+  end
+
+  def update_with_category(params,category)
+    self.category = Category.find_by_name(category)
+    self.update(params)
   end
 
   private
