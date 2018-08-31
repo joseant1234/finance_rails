@@ -12,7 +12,7 @@ class ExpensesController < ApplicationController
       load_categories
     end
 
-    @expenses = Expense.includes(:provider, :currency).order(sort_column + ' ' + sort_direction)
+    @expenses = Expense.includes(:provider, :currency,:fees).order(sort_column + ' ' + sort_direction)
     @expenses = @expenses.registered_from(params[:registered_from]).registered_to(params[:registered_to]).filter_by_country(params[:country])
     @expenses = @expenses.planned_payment_from(params[:planned_payment_from]) unless params[:planned_payment_from].blank?
     @expenses = @expenses.planned_payment_to(params[:planned_payment_to]) unless params[:planned_payment_to].blank?
@@ -23,7 +23,6 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_source(params[:source]) unless params[:source].blank?
     @expenses = @expenses.filter_by_category(params[:category]) unless params[:category].blank?
     @expenses = @expenses.paginate(per_page: 30, page: params[:page])
-    p @expenses
     respond_to do |f|
       f.html { render :index }
       f.js { render :index, layout: false }
@@ -36,6 +35,7 @@ class ExpensesController < ApplicationController
 
   def new
     @expense = Expense.new
+    @expense.fees.build
     load_countries
     load_providers
     load_banks
@@ -49,6 +49,7 @@ class ExpensesController < ApplicationController
     if @expense.save_with_category(params[:category_name])
       redirect_to expenses_path, notice: 'Successfully created'
     else
+      p @expense.errors.full_messages
       load_countries
       load_providers
       load_banks

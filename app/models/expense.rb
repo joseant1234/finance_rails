@@ -19,12 +19,14 @@ class Expense < ApplicationRecord
   validates :document_number, :planned_payment_at, presence: true, if: :invoice?
   validates :transaction_at, presence: true, if: :paid?
   validates :team, :issue_at, presence: true, if: :other?
+  validates :fees, length: { minimum: 1 }, if: :with_fee
 
   has_attached_file :transaction_document, default_url: "/images/default.png"
   validates_attachment_content_type :transaction_document, content_type: /\Aimage\/.*\z/
 
   accepts_nested_attributes_for :fees, allow_destroy: true
 
+  before_validation :set_fee, on: [:create,:update]
   before_save :set_transaction_at
   after_initialize :set_defaults
 
@@ -124,6 +126,10 @@ class Expense < ApplicationRecord
     self.registered_at ||= Time.now
   end
 
-
+  def set_fee
+    if self.with_fee.blank? || self.with_fee == false
+      self.fees.new(planned_payment_at: self.planned_payment_at, amount: self.amount)
+    end
+  end
 
 end

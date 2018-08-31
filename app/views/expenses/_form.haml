@@ -125,6 +125,7 @@
   %div{class: "row fees-container fields-with-invoice #{'hidden' if !@expense.with_fee }" }
     .col.s12
       = f.label :fees, 'Fees'
+      %small.red-text= @expense.errors.full_messages_for(:fees).to_sentence
     .col.s12.top-space
       #fees
         = f.fields_for :fees do |fee_form|

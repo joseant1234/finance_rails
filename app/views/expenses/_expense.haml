@@ -11,3 +11,20 @@
     = link_to "<i class='material-icons'>edit</i>".html_safe, edit_expense_path(expense), class: 'black-text'
     - if expense.pending?
       = link_to_pay(expense)
+%tr
+  %td{colspan: '8'}
+    %span.bold FEES
+%tr
+  %td #
+  %td{colspan: '3'} Amount
+  %td{colspan: '2'} Planned payment date
+  %td Transaction date
+  %td Is paid
+- expense.fees.each_with_index do |fee,index|
+  %tr
+    %td= index + 1
+    %td{colspan: '3'}= fee.amount_decimal
+    %td{colspan: '2'}= fee.planned_payment_at.strftime('%Y-%m-%d')
+    %td= fee.transaction_at.try(:strftime,'%Y-%m-%d') || '-'
+    %td= fee.is_paid?.humanize
+
