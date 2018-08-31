@@ -36,14 +36,14 @@ $(document).on 'change', '.send-filter', ()->
 
 $(document).on 'change', '.source-select', ()->
   source = $(this).val()
-  if source && source == 'direct'
+  if source && source == 'other'
     $('.subtotal-label').text 'Total'
     $('.fields-with-invoice').fadeOut()
-    $('.fields-with-direct').fadeIn()
+    $('.fields-with-other').fadeIn()
   else if source
     $('.subtotal-label').text 'Subtotal'
     $('.fields-with-invoice').fadeIn()
-    $('.fields-with-direct').fadeOut()
+    $('.fields-with-other').fadeOut()
 
 $(document).on 'click', '.send-form-with-sortable', (ev)->
   ev.preventDefault()

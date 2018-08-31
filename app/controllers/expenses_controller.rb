@@ -52,7 +52,7 @@ class ExpensesController < ApplicationController
       load_banks
       load_currencies
       load_teams
-      load_collaborators(expense_params[:team_id]) if @expense.direct?
+      load_collaborators(expense_params[:team_id]) if @expense.other?
       load_categories
       render :new
     end
@@ -64,7 +64,7 @@ class ExpensesController < ApplicationController
     load_banks
     load_currencies
     load_teams
-    load_collaborators(@expense.team_id) if @expense.direct?
+    load_collaborators(@expense.team_id) if @expense.other?
     load_categories
   end
 
@@ -77,7 +77,7 @@ class ExpensesController < ApplicationController
       load_banks
       load_currencies
       load_teams
-      load_collaborators(@expense.team_id) if @expense.direct?
+      load_collaborators(@expense.team_id) if @expense.other?
       load_categories
       render :edit
     end

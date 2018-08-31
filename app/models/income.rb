@@ -9,7 +9,7 @@ class Income < ApplicationRecord
   belongs_to :collaborator, optional: true
 
   enum state: [:pending, :paid, :overdued]
-  enum source: [:invoice, :direct]
+  enum source: [:invoice, :other]
 
   validates :description, :amount, :billing_at, :registered_at, presence: true
   validates :amount, numericality: { greater_than: 0 }

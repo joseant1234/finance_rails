@@ -11,13 +11,13 @@
       = f.select :source, options_for_select(Expense.sources.keys,@expense.source),{}, class: 'source-select'
       = f.label :source, 'Source (*)'
       %small.red-text#source_error= @expense.errors.full_messages_for(:source).to_sentence
-    .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
+    .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
       = f.text_field :document_number, data: { length: '50' }
       = f.label :document_number, 'Document number (*)', class: 'active'
       %small.red-text#document_number_error= @expense.errors.full_messages_for(:document_number).to_sentence
     .input-field.col.s12.m4.autocomplete-wrapper
       = text_field_tag :category_name,param_or_resource(params[:category_name],:category,@expense,:name), class: 'autocomplete-categories-expenses autocomplete', autocomplete: 'off'
-      = label_tag :category_name, 'Category', class: 'active'    
+      = label_tag :category_name, 'Category', class: 'active'
 
       #categories_expense.hidden
         - @categories.each do |category|
@@ -48,7 +48,7 @@
       = text_field_tag :phone, @expense.provider.try(:phone), class: 'phone-field', disabled: true
       = label_tag :phone, 'Provider phone'
 
-  .fields-with-direct{class: "#{'hidden' unless @expense.direct?}"}
+  .fields-with-other{class: "#{'hidden' unless @expense.other?}"}
     .row
       .col.s12
         %span.bold.border-collection Team information
@@ -92,7 +92,7 @@
       = f.text_field :transaction_at, class: 'datepicker', value: @expense.transaction_at.try(:strftime,"%Y-%m-%d")
       = f.label :transaction_at, 'Transaction at (*)', class: 'active'
       %small.red-text#transaction_at_error= @expense.errors.full_messages_for(:transaction_at).to_sentence
-    .input-field.col.s12.m3.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
+    .input-field.col.s12.m3.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
       = f.text_field :planned_payment_at, class: 'datepicker', value: @expense.planned_payment_at.try(:strftime,"%Y-%m-%d")
       = f.label :planned_payment_at, 'Planned payment at (*)', class: 'active'
       %small.red-text#planned_payment_at_error= @expense.errors.full_messages_for(:planned_payment_at).to_sentence
@@ -107,7 +107,7 @@
       %small.red-text#invoice_copy_error= @expense.errors.full_messages_for(:transaction_document).to_sentence
 
 
-  .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
+  .row.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
     .col.s12.m2
       %label With fee
     .col.s12.m10
@@ -127,12 +127,12 @@
           = render 'fee_fields', f: fee_form
         %p= link_to_add_association 'Add a fee', f, :fees
 
-  .row.fields-with-invoice{class: "#{'hidden' if @expense.direct? }"}
+  .row.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
     .input-field.col.s12.m4
       = f.select :payment_type, options_for_select(Expense.payment_types.keys,:payment_type), {}, class: 'payment-type-select'
       = f.label :payment_type
 
-  %div{class: "fields-with-invoice #{'hidden' if @expense.direct? }"}
+  %div{class: "fields-with-invoice #{'hidden' if @expense.other? }"}
     %div{class: "row transference-container #{'hidden' unless @expense.transference?}"}
       .input-field.col.s12.m3
         = f.select :bank_id, options_from_collection_for_select(@banks,:id,:name,@expense.bank_id), { prompt: 'Choose an option'}
@@ -147,7 +147,7 @@
         = f.email_field :contact_email
         = f.label :contact_email, class: 'active'
 
-  %div{class: "fields-with-invoice #{'hidden' if @expense.direct? }"}
+  %div{class: "fields-with-invoice #{'hidden' if @expense.other? }"}
     %div{class: "row upon-delivery-container fields-with-invoice #{'hidden' unless @expense.upon_delivery?}"}
       .input-field.col.s12.m4
         = f.text_field :place_of_delivery

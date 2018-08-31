@@ -12,7 +12,7 @@ class Expense < ApplicationRecord
   has_many :fees
 
   enum state: [:pending, :paid, :overdued]
-  enum source: [:invoice, :direct]
+  enum source: [:invoice, :other]
   enum payment_type: [:transference, :realized, :upon_delivery]
 
   validates :description, :amount, presence: true

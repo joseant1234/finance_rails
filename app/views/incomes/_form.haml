@@ -9,9 +9,9 @@
   .row.top-space
     .input-field.col.s12.m4
       = f.select :source, options_for_select(Income.sources.keys,@income.source),{}, class: 'source-select'
-      = f.label :source, 'Source (*)'
+      = f.label :source, 'Proof of payment(*)'
       %small.red-text#source_error= @income.errors.full_messages_for(:source).to_sentence
-    .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @income.direct? }"}
+    .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @income.other? }"}
       = f.text_field :invoice_number, data: { length: '50' }
       = f.label :invoice_number, 'Invoice number (*)', class: 'active'
       %small.red-text#invoice_number_error= @income.errors.full_messages_for(:invoice_number).to_sentence
@@ -51,7 +51,7 @@
       = f.number_field :amount, step: 'any', class: 'subtotal-field'
       = f.label :amount, label_amount(@income), class: 'active subtotal-label'
       %small.red-text#amount_error= @income.errors.full_messages_for(:amount).to_sentence
-    .fields-with-invoice{class: "#{'hidden' if @income.direct? }"}
+    .fields-with-invoice{class: "#{'hidden' if @income.other? }"}
       .input-field.col.s12.m1
         = f.number_field :igv, step: 'any', class: 'igv-field'
         = f.label :igv, 'IGV (%)', class: 'active'
@@ -106,8 +106,5 @@
     .input-field.col.s12.m4
       = f.text_area :message, class: 'materialize-textarea'
       = f.label :message
-    .input-field.col.s12.m4
-      = f.text_area :reason, class: 'materialize-textarea'
-      = f.label :reason
 
 
