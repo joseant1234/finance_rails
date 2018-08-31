@@ -8,7 +8,14 @@ $(document).on 'change', '.client-select-income' , ()->
 $(document).on 'change', '.state-select-income', ()->
   state = $(this).val()
   if state and state == 'paid'
-    console.log state
     $('.transaction-at-wrapper-income').fadeIn()
   else if state
     $('.transaction-at-wrapper-income').fadeOut()
+
+$(document).on 'keyup', '.subtotal-field,.igv-field', ()->
+  subtotal = parseFloat($('.subtotal-field').val())
+  igv = parseFloat($('.igv-field').val()/100)
+  $('.igv-amount-field').val((subtotal * igv).toFixed(2))
+  igv_amount = parseFloat($('.igv-amount-field').val())
+  $('.total-field').val((subtotal + igv_amount).toFixed(2))
+  Materialize.updateTextFields()

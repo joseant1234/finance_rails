@@ -11,8 +11,10 @@ class Income < ApplicationRecord
   enum state: [:pending, :paid, :overdued]
   enum source: [:invoice, :direct]
 
-  validates :description, :amount, :billing_at, :expiration_at, presence: true
-  validates :invoice_copy, :invoice_number, presence: true, if: :invoice?
+  validates :description, :amount, :billing_at, :registered_at, presence: true
+  validates :amount, numericality: { greater_than: 0 }
+  validates :invoice_copy, :invoice_number, :igv, presence: true, if: :invoice?
+  validates :igv, numericality: { less_than_or_equal_to: 100, greater_than_or_equal_to: 0 }, if: :invoice?
 
   has_attached_file :invoice_copy, default_url: "/images/default.png"
   validates_attachment_content_type :invoice_copy, content_type: /\Aimage\/.*\z/
@@ -21,7 +23,7 @@ class Income < ApplicationRecord
   validates_attachment_content_type :purchase_order, content_type: /\Aimage\/.*\z/
 
   before_save :set_transaction_at
-
+  after_initialize :set_defaults
 
   def self.from_date(from_date)
     if from_date.present?
@@ -75,10 +77,22 @@ class Income < ApplicationRecord
     number_with_precision(amount, :precision => 2) || 0
   end
 
+  def calculate_igv_amount
+    ((self.amount || 0) * ((self.igv || 0) / 100)).round(2)
+  end
+
+  def calculate_total
+    ((self.amount || 0) + calculate_igv_amount).round(2)
+  end
+
   private
   def set_transaction_at
     self.transaction_at = nil if self.overdued?
   end
 
+  def set_defaults
+    (self.igv ||=  Parameter.igv.last.value) if self.invoice?
+    self.registered_at ||= Time.now
+  end
 
 end

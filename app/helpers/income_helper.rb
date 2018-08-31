@@ -19,4 +19,9 @@ module IncomeHelper
     end
   end
 
+  def label_amount(income)
+    return 'Subtotal' if income.invoice?
+    return 'Total'
+  end
+
 end

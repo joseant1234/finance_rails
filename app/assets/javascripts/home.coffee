@@ -37,9 +37,11 @@ $(document).on 'change', '.send-filter', ()->
 $(document).on 'change', '.source-select', ()->
   source = $(this).val()
   if source && source == 'direct'
+    $('.subtotal-label').text 'Total'
     $('.fields-with-invoice').fadeOut()
     $('.fields-with-direct').fadeIn()
   else if source
+    $('.subtotal-label').text 'Subtotal'
     $('.fields-with-invoice').fadeIn()
     $('.fields-with-direct').fadeOut()
 

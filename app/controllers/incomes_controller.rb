@@ -103,8 +103,8 @@ class IncomesController < ApplicationController
 
   def income_params
     params.require(:income).permit(:income_id, :country_id, :invoice_number, :client_id,
-                                    :source, :description, :currency_id, :amount,
-                                    :billing_at, :expiration_at, :purchase_order,
+                                    :source, :description, :currency_id, :amount, :igv,
+                                    :billing_at, :registered_at, :purchase_order,
                                     :purchase_order_number,:invoice_copy, :state,
                                     :message, :reason, :drawdown_seal)
   end

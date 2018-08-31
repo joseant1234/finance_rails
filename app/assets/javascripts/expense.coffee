@@ -6,11 +6,6 @@ $(document).on 'turbolinks:load', ()->
     Object.assign data, obj
   $('input.autocomplete-categories-expenses').autocomplete
     data: data
-    
-# $(document).on 'keyup', '.amout-field', ()->
-#   amount = $(this).val()
-#   $('.igv-field').val(amount * 0.18)
-#   Materialize.updateTextFields()
 
 $(document).on 'change', '.provider-select' , ()->
   provider_id = $(this).val()
