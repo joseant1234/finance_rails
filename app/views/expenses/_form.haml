@@ -9,7 +9,7 @@
   .row.top-space
     .input-field.col.s12.m4
       = f.select :source, options_for_select(Expense.sources.keys,@expense.source),{}, class: 'source-select'
-      = f.label :source, 'Source (*)'
+      = f.label :source, 'Proof of payment (*)'
       %small.red-text#source_error= @expense.errors.full_messages_for(:source).to_sentence
     .input-field.col.s12.m4.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
       = f.text_field :document_number, data: { length: '50' }
@@ -88,6 +88,10 @@
       = label_tag :state, 'State(*)'
 
   .row
+    .input-field.col.s12.m4
+      = f.text_field :registered_at, class: 'datepicker', value: @expense.registered_at.try(:strftime,"%Y-%m-%d")
+      = f.label :registered_at, 'Registered at (*)', class: 'active'
+      %small.red-text#registered_at_error= @expense.errors.full_messages_for(:registered_at).to_sentence
     .input-field.col.12.m3.transaction-at-wrapper-income{class: "#{'hidden' unless @expense.paid? }"}
       = f.text_field :transaction_at, class: 'datepicker', value: @expense.transaction_at.try(:strftime,"%Y-%m-%d")
       = f.label :transaction_at, 'Transaction at (*)', class: 'active'

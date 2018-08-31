@@ -4,21 +4,27 @@
       = select_tag :country, options_from_collection_for_select(@countries,:name,:name, 'Peru'), class: 'send-filter'
       = label_tag :country, 'By country'
     .input-field.col.s12.m3
-      = text_field_tag :from_date, Date.today.to_date.beginning_of_month, class: 'datepicker send-filter'
-      = label_tag :from_date
+      = text_field_tag :registered_from, Date.today.to_date.beginning_of_month, class: 'datepicker send-filter'
+      = label_tag :registered_from
     .input-field.col.s12.m3
-      = text_field_tag :to_date, Date.today.to_date, class: 'datepicker send-filter'
-      = label_tag :to_date
+      = text_field_tag :registered_to, Date.today.to_date, class: 'datepicker send-filter'
+      = label_tag :registered_to
     .input-field.col.s12.m3
       = select_tag :currency, options_from_collection_for_select(@currencies,:id,:name, params[:currency]), prompt: 'Choose an option', class: 'send-filter'
       = label_tag :currency, 'By currency'
   .row
     .input-field.col.s12.m3
+      = text_field_tag :billing_from, '', class: 'datepicker send-filter'
+      = label_tag :billing_from
+    .input-field.col.s12.m3
+      = text_field_tag :billing_to, '', class: 'datepicker send-filter'
+      = label_tag :billing_to
+    .input-field.col.s12.m3
       = select_tag :state, options_for_select(class_enum_for_select("Income","state")), prompt: 'Select a state', class: 'send-filter'
       = label_tag :state, 'By state'
     .input-field.col.s12.m3
       = select_tag :source, options_for_select(class_enum_for_select('Income','source')), prompt: 'Choose an option', class: 'send-filter'
-      = label_tag :source, 'By source'
+      = label_tag :source, 'By proof of payment'
 
   = hidden_field_tag :sort, params[:sort], id: 'sort_hidden'
   = hidden_field_tag :direction, params[:direction], id: 'direction_hidden'

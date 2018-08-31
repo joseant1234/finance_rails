@@ -13,7 +13,9 @@ class ExpensesController < ApplicationController
     end
 
     @expenses = Expense.includes(:provider, :currency).order(sort_column + ' ' + sort_direction)
-    @expenses = @expenses.from_date(params[:from_date]).to_date(params[:to_date]).filter_by_country(params[:country])
+    @expenses = @expenses.registered_from(params[:registered_from]).registered_to(params[:registered_to]).filter_by_country(params[:country])
+    @expenses = @expenses.planned_payment_from(params[:planned_payment_from]) unless params[:planned_payment_from].blank?
+    @expenses = @expenses.planned_payment_to(params[:planned_payment_to]) unless params[:planned_payment_to].blank?
     @expenses = @expenses.filter_by_currency(params[:currency]) unless params[:currency].blank?
     @expenses = @expenses.filter_by_state(params[:state]) unless params[:state].blank?
     @expenses = @expenses.filter_by_bank(params[:bank]) unless params[:bank].blank?
@@ -21,7 +23,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_source(params[:source]) unless params[:source].blank?
     @expenses = @expenses.filter_by_category(params[:category]) unless params[:category].blank?
     @expenses = @expenses.paginate(per_page: 30, page: params[:page])
-
+    p @expenses
     respond_to do |f|
       f.html { render :index }
       f.js { render :index, layout: false }
@@ -126,9 +128,9 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:provider_id, :country_id, :document_number,
                                     :source, :description, :currency_id, :amount,
                                     :team_id, :collaborator_id, :issue_at, :state,
-                                    :planned_payment_at, :transaction_at, :with_fee,
-                                    :transaction_document, :payment_type,:account_number,
-                                    :cci, :contact_email, :place_of_delivery,
+                                    :registered_at,:planned_payment_at, :transaction_at,
+                                    :with_fee,:transaction_document, :payment_type,
+                                    :account_number, :cci, :contact_email, :place_of_delivery,
                                     :delivery_at, :bank_id,
                                     fees_attributes: [:id, :amount, :planned_payment_at, :_destroy])
   end

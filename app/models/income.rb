@@ -25,20 +25,28 @@ class Income < ApplicationRecord
   before_save :set_transaction_at
   after_initialize :set_defaults
 
-  def self.from_date(from_date)
+  def self.registered_from(from_date)
     if from_date.present?
-      where("incomes.created_at >= ?", from_date.to_datetime)
+      where("incomes.registered_at >= ?", from_date.to_datetime)
     else
-      where("incomes.created_at >= ?", Date.today.to_datetime.beginning_of_month)
+      where("incomes.registered_at >= ?", Date.today.to_datetime.beginning_of_month)
     end
   end
 
-  def self.to_date(to_date)
+  def self.registered_to(to_date)
     if to_date.present?
-      where("incomes.created_at <= ?", to_date.to_datetime.end_of_day)
+      where("incomes.registered_at <= ?", to_date.to_datetime.end_of_day)
     else
-      where("incomes.created_at <= ?", Date.today.end_of_day.to_datetime)
+      where("incomes.registered_at <= ?", Date.today.end_of_day.to_datetime)
     end
+  end
+
+  def self.billing_from(from_date)
+    where("incomes.billing_at >= ?", from_date.to_datetime)
+  end
+
+  def self.billing_to(from_date)
+    where("incomes.billing_at <= ?", from_date.to_datetime.end_of_day)
   end
 
   def self.filter_by_state(state)

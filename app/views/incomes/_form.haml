@@ -54,11 +54,11 @@
     .fields-with-invoice{class: "#{'hidden' if @income.other? }"}
       .input-field.col.s12.m1
         = f.number_field :igv, step: 'any', class: 'igv-field'
-        = f.label :igv, 'IGV (%)', class: 'active'
+        = f.label :igv, 'I.G.V. (%)', class: 'active'
         %small.red-text#igv_error= @income.errors.full_messages_for(:igv).to_sentence
       .input-field.col.s12.m3
         = number_field_tag :igv_amount, @income.calculate_igv_amount, step: 'any', class: 'igv-amount-field', disabled: true
-        = label :igv_amount, 'IGV', class: 'active'
+        = label_tag :igv_amount, 'IGV amount', class: 'active'
       .input-field.col.s12.m4
         = number_field_tag :total, @income.calculate_total, step: 'any', class: 'total-field', disabled: true
         = label_tag :total, 'Total', class: 'active'
@@ -83,7 +83,7 @@
   .row
     .input-field.col.s12.m4
       = f.text_field :purchase_order_number
-      = f.label :purchase_order_number, 'Purchase order number (*)', class: 'active'
+      = f.label :purchase_order_number, class: 'active'
       %small.red-text#purchase_order_number_error= @income.errors.full_messages_for(:purchase_order_number).to_sentence
     .input-field.col.s12.m4
       = f.text_field :billing_at, class: 'datepicker', value: @income.billing_at.try(:strftime,"%Y-%m-%d")
@@ -104,7 +104,7 @@
       = label_tag :state, 'State(*)'
       %small.red-text#state_error= @income.errors.full_messages_for(:state).to_sentence
     .input-field.col.s12.m4
-      = f.text_area :message, class: 'materialize-textarea'
-      = f.label :message
+      = f.text_area :note, class: 'materialize-textarea'
+      = f.label :note
 
 

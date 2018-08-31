@@ -3,7 +3,7 @@
   %td= expense.provider.name
   %td= expense.description
   %td= "#{expense.currency.code} #{expense.amount}"
-  %td= expense.created_at.strftime("%Y/%m/%d")
+  %td= expense.registered_at.strftime("%Y/%m/%d")
   %td= expense.planned_payment_at.try(:strftime,"%Y/%m/%d") || '-'
   %td= expense.state
   %td

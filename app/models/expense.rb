@@ -15,10 +15,10 @@ class Expense < ApplicationRecord
   enum source: [:invoice, :other]
   enum payment_type: [:transference, :realized, :upon_delivery]
 
-  validates :description, :amount, presence: true
+  validates :description, :amount, :registered_at, presence: true
   validates :document_number, :planned_payment_at, presence: true, if: :invoice?
   validates :transaction_at, presence: true, if: :paid?
-  validates :team, :issue_at, presence: true, if: :direct?
+  validates :team, :issue_at, presence: true, if: :other?
 
   has_attached_file :transaction_document, default_url: "/images/default.png"
   validates_attachment_content_type :transaction_document, content_type: /\Aimage\/.*\z/
@@ -26,21 +26,30 @@ class Expense < ApplicationRecord
   accepts_nested_attributes_for :fees, allow_destroy: true
 
   before_save :set_transaction_at
+  after_initialize :set_defaults
 
-  def self.from_date(from_date)
+  def self.registered_from(from_date)
     if from_date.present?
-      where("expenses.created_at >= ?", from_date.to_datetime)
+      where("expenses.registered_at >= ?", from_date.to_datetime)
     else
-      where("expenses.created_at >= ?", Date.today.to_datetime.beginning_of_month)
+      where("expenses.registered_at >= ?", Date.today.to_datetime.beginning_of_month)
     end
   end
 
-  def self.to_date(to_date)
+  def self.registered_to(to_date)
     if to_date.present?
-      where("expenses.created_at <= ?", to_date.to_datetime.end_of_day)
+      where("expenses.registered_at <= ?", to_date.to_datetime.end_of_day)
     else
-      where("expenses.created_at <= ?", Date.today.end_of_day.to_datetime)
+      where("expenses.registered_at <= ?", Date.today.end_of_day.to_datetime)
     end
+  end
+
+  def self.planned_payment_from(from_date)
+    where("expenses.planned_payment_at >= ?", from_date.to_datetime)
+  end
+
+  def self.planned_payment_to(from_date)
+    where("expenses.planned_payment_at <= ?", from_date.to_datetime.end_of_day)
   end
 
   def self.filter_by_state(state)
@@ -109,6 +118,10 @@ class Expense < ApplicationRecord
   private
   def set_transaction_at
     self.transaction_at = nil if self.overdued?
+  end
+
+  def set_defaults
+    self.registered_at ||= Time.now
   end
 
 

@@ -4,11 +4,11 @@
       = select_tag :country, options_from_collection_for_select(@countries,:name,:name, 'Peru'), class: 'send-filter'
       = label_tag :country, 'By country'
     .input-field.col.s12.m3
-      = text_field_tag :from_date, Date.today.to_date.beginning_of_month, class: 'datepicker send-filter'
-      = label_tag :from_date
+      = text_field_tag :registered_from, Date.today.to_date.beginning_of_month, class: 'datepicker send-filter'
+      = label_tag :registered_from
     .input-field.col.s12.m3
-      = text_field_tag :to_date, Date.today.to_date, class: 'datepicker send-filter'
-      = label_tag :to_date
+      = text_field_tag :registered_to, Date.today.to_date, class: 'datepicker send-filter'
+      = label_tag :registered_to
     .input-field.col.s12.m3
       = select_tag :currency, options_from_collection_for_select(@currencies,:id,:name, params[:currency]), prompt: 'Choose an option', class: 'send-filter'
       = label_tag :currency, 'By currency'
@@ -24,8 +24,14 @@
       = label_tag :banks, 'By bank'
     .input-field.col.s12.m3
       = select_tag :source, options_for_select(class_enum_for_select('Expense','source')), prompt: 'Choose an option', class: 'send-filter'
-      = label_tag :source, 'By source'
+      = label_tag :source, 'By proof of payment'
   .row
+    .input-field.col.s12.m3
+      = text_field_tag :planned_payment_from, '', class: 'datepicker send-filter'
+      = label_tag :planned_payment_from
+    .input-field.col.s12.m3
+      = text_field_tag :planned_payment_to, '', class: 'datepicker send-filter'
+      = label_tag :planned_payment_to
     .input-field.col.s12.m3
       = select_tag :category, options_from_collection_for_select(@categories,:id,:name), prompt: 'Choose an option', class: 'send-filter'
       = label_tag :category, 'By category'
