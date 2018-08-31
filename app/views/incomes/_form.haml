@@ -57,7 +57,7 @@
           %span Invoice copy
           = f.file_field :invoice_copy
         .file-path-wrapper
-          %input{type: 'text', class: 'file-path validate', value: @income.invoice_copy.original_filename}
+          %input{type: 'text', class: 'file-path validate'}
       %small.red-text#invoice_copy_error= @income.errors.full_messages_for(:invoice_copy).to_sentence
     .col.s12.m6
       .file-field.input-field
@@ -65,7 +65,7 @@
           %span Purchase order
           = f.file_field :purchase_order
         .file-path-wrapper
-          %input{type: 'text', class: 'file-path validate', value: @income.purchase_order.original_filename}
+          %input{type: 'text', class: 'file-path validate'}
       %small.red-text#purchase_order_error= @income.errors.full_messages_for(:purchase_order).to_sentence
 
   .row
