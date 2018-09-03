@@ -22,5 +22,9 @@ module SortableConcern extend ActiveSupport::Concern
       order(id: :desc)
     end
 
+    def firsted
+      order(id: :asc)
+    end
+
   end
 end

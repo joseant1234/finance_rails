@@ -26,6 +26,8 @@ class CreateExpenses < ActiveRecord::Migration[5.1]
       t.references :team, foreign_key: true
       t.references :collaborator, foreign_key: true
       t.datetime :issue_at
+      t.datetime :registered_at, null: false
+      t.decimal :remaining_amount, precision: 10, scale: 2
 
       t.timestamps
     end

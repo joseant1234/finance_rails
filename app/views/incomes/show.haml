@@ -64,12 +64,6 @@
 
     .row
       .col.s12.m4
-        %span.bold Expiration date (yyyy-mm-dd):
-      .col.s12.m8
-        %span= @income.expiration_at.strftime("%Y-%m-%d")
-
-    .row
-      .col.s12.m4
         %span.bold Invoice copy:
       .col.s12.m8
         %span
@@ -96,13 +90,7 @@
 
     .row
       .col.s12.m4
-        %span.bold Message:
+        %span.bold Note:
       .col.s12.m8
-        %span.multiple-line= @income.message
-
-    .row
-      .col.s12.m4
-        %span.bold Reason:
-      .col.s12.m8
-        %span.multiple-line= @income.reason
+        %span.multiple-line= @income.note
 

@@ -12,7 +12,7 @@ class ExpensesController < ApplicationController
       load_categories
     end
 
-    @expenses = Expense.includes(:provider, :currency,:fees).order(sort_column + ' ' + sort_direction)
+    @expenses = Expense.includes(:provider, :currency,:fees).order("expenses.#{sort_column} #{sort_direction}")
     @expenses = @expenses.registered_from(params[:registered_from]).registered_to(params[:registered_to]).filter_by_country(params[:country])
     @expenses = @expenses.planned_payment_from(params[:planned_payment_from]) unless params[:planned_payment_from].blank?
     @expenses = @expenses.planned_payment_to(params[:planned_payment_to]) unless params[:planned_payment_to].blank?

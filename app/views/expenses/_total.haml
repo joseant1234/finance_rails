@@ -1,20 +1,20 @@
 .row
   .col.s12
-    %span.bold.border-collection TOTAL OF ALL EXPENSES
+    %span.bold.border-collection REMAINING EXPENSES IN TOTAL
 .row
   .col.s12.m2
     %span.bold TOTAL (PEN):
   .col.s12.m2.right-text
-    %span= number_with_precision(Expense.calculate_total_soles, precision: 2)
+    %span= number_with_precision(@expenses.calculate_remaining_total_soles, precision: 2)
 .row
   .col.s12.m2
     %span.bold TOTAL (USD) IN PEN:
     = text_rate_of_change
   .col.s12.m2.right-text
-    %span= number_with_precision(Expense.calculate_total_dollar_in_soles, precision: 2)
+    %span= number_with_precision(@expenses.calculate_remaining_total_dollar_in_soles, precision: 2)
 .row
   .col.s12.m2
     %span.bold TOTAL IN PEN
     = text_rate_of_change
   .col.s12.m2.right-text
-    %span= number_with_precision(Expense.calculate_total_in_soles, precision: 2)
+    %span= number_with_precision(@expenses.calculate_remaining_total_in_soles, precision: 2)

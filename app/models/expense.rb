@@ -26,7 +26,7 @@ class Expense < ApplicationRecord
 
   accepts_nested_attributes_for :fees, allow_destroy: true
 
-  before_save :set_transaction_at, :set_cache_fields
+  before_save :set_cache_fields
   after_initialize :set_defaults
 
   def self.registered_from(from_date)
@@ -81,20 +81,20 @@ class Expense < ApplicationRecord
     joins(:category).where('categories.id = ?',category).distinct
   end
 
-  def self.calculate_total_soles
-    where(currency_id: Currency.find_by_code('PEN')).sum("expenses.amount")
+  def self.calculate_remaining_total_soles
+    where("expenses.currency_id = ?", Currency.find_by_code('PEN')).sum("expenses.remaining_amount")
   end
 
-  def self.calculate_total_dollar
-    where(currency_id: Currency.find_by_code('USD')).sum("expenses.amount")
+  def self.calculate_remaining_total_dollar
+    where("expenses.currency_id = ?", Currency.find_by_code('USD')).sum("expenses.remaining_amount")
   end
 
-  def self.calculate_total_dollar_in_soles
-    calculate_total_dollar * Parameter.rate_of_change.last.value.to_f || 0
+  def self.calculate_remaining_total_dollar_in_soles
+    calculate_remaining_total_dollar * Parameter.rate_of_change.last.value.to_f || 1
   end
 
-  def self.calculate_total_in_soles
-    calculate_total_soles + calculate_total_dollar_in_soles
+  def self.calculate_remaining_total_in_soles
+    calculate_remaining_total_soles + calculate_remaining_total_dollar_in_soles
   end
 
 
@@ -117,18 +117,18 @@ class Expense < ApplicationRecord
   end
 
   private
-  def set_transaction_at
-    self.transaction_at = nil if self.overdued?
-  end
-
   def set_defaults
     self.registered_at ||= Time.now
   end
 
   def set_cache_fields
+    # with these cache fields, will avoid extra queries for min planned_payment, sum amount, ....
     self.amount = self.fees.select{ |f| !f.marked_for_destruction?}.sum(&:amount)
+    self.remaining_amount = self.amount - self.fees.select{ |f| f.is_paid?}.sum(&:amount)
     self.planned_payment_at = self.fees.select{|f| !f.marked_for_destruction? && f.is_not_paid?}.sort_by(&:planned_payment_at).first.try(:planned_payment_at)
-    self.with_fee = self.fees.select{ |f| !f.marked_for_destruction?}.length > 1
+    # self.with_fee = self.fees.select{ |f| !f.marked_for_destruction?}.length > 1
   end
+
+
 
 end

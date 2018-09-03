@@ -37,7 +37,7 @@ class FeesController < ApplicationController
   end
 
   def authorize_view
-    redirect_to expenses_path if !@expense.with_fee || !@expense.pending?
+    redirect_to expenses_path if !@expense.pending?
   end
 
   def fee_params
