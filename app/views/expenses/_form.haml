@@ -101,7 +101,7 @@
           = f.file_field :transaction_document
         .file-path-wrapper
           %input{type: 'text', class: 'file-path validate', value: @expense.transaction_document.original_filename}
-      %small.red-text#invoice_copy_error= @expense.errors.full_messages_for(:transaction_document).to_sentence
+      %small.red-text#transaction_document_error= @expense.errors.full_messages_for(:transaction_document).to_sentence
 
 
 
