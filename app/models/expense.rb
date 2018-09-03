@@ -15,19 +15,18 @@ class Expense < ApplicationRecord
   enum source: [:invoice, :other]
   enum payment_type: [:transference, :realized, :upon_delivery]
 
-  validates :description, :amount, :registered_at, presence: true
-  validates :document_number, :planned_payment_at, presence: true, if: :invoice?
+  validates :description, :registered_at, presence: true
+  validates :document_number, presence: true, if: :invoice?
   validates :transaction_at, presence: true, if: :paid?
   validates :team, :issue_at, presence: true, if: :other?
-  validates :fees, length: { minimum: 1 }, if: :with_fee
+  validates :fees, length: { minimum: 1 }
 
   has_attached_file :transaction_document, default_url: "/images/default.png"
   validates_attachment_content_type :transaction_document, content_type: /\Aimage\/.*\z/
 
   accepts_nested_attributes_for :fees, allow_destroy: true
 
-  before_validation :set_fee, on: [:create,:update]
-  before_save :set_transaction_at
+  before_save :set_transaction_at, :set_cache_fields
   after_initialize :set_defaults
 
   def self.registered_from(from_date)
@@ -126,10 +125,10 @@ class Expense < ApplicationRecord
     self.registered_at ||= Time.now
   end
 
-  def set_fee
-    if self.with_fee.blank? || self.with_fee == false
-      self.fees.new(planned_payment_at: self.planned_payment_at, amount: self.amount)
-    end
+  def set_cache_fields
+    self.amount = self.fees.select{ |f| !f.marked_for_destruction?}.sum(&:amount)
+    self.planned_payment_at = self.fees.select{|f| !f.marked_for_destruction? && f.is_not_paid?}.sort_by(&:planned_payment_at).first.try(:planned_payment_at)
+    self.with_fee = self.fees.select{ |f| !f.marked_for_destruction?}.length > 1
   end
 
 end

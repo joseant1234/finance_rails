@@ -18,8 +18,16 @@ class Fee < ApplicationRecord
     where.not(transaction_at: nil, amount: nil)
   end
 
+  def self.filter_by_not_paid
+    where(transaction_at: nil).or(Fee.where(amount: nil))
+  end
+
   def is_paid?
     self.transaction_at.present? && self.amount.present?
+  end
+
+  def is_not_paid?
+    self.transaction_at.blank? || self.amount.blank?
   end
 
   def amount_decimal

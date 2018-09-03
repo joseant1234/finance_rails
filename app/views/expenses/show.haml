@@ -151,29 +151,43 @@
           .col.s12.m8
             %span= @expense.delivery_at.try(:strftime,"%Y-%m-%d") || '-'
 
-    - if @expense.with_fee == true
-      .row
-        .col.s12
-          %p.bold.medium.border-collection Fees
+    .row
+      .col.s12
+        %p.bold.medium.border-collection Fees
 
-      - @expense.fees.each do |fee|
-        .row
-          .col.s12.m4
-            %span.bold Amount:
-          .col.s12.m8
-            %span= fee.amount_decimal
-        .row
-          .col.s12.m4
-            %span.bold Planned payment date:
-          .col.s12.m8
-            %span= fee.planned_payment_at
-        .row
-          .col.s12.m4
-            %span.bold Document:
-          .col.s12.m8
-            %span
-              - if fee.document.present?
-                = link_to fee.document.original_filename, fee_path(fee), target: '_blank'
-              - else
-                = '-'
+    - @expense.fees.each_with_index do |fee,index|
+      .row
+        .col.s12.m4
+          %span.bold Number:
+        .col.s12.m8
+          %span= index + 1
+      .row
+        .col.s12.m4
+          %span.bold Amount:
+        .col.s12.m8
+          %span= fee.amount_decimal
+      .row
+        .col.s12.m4
+          %span.bold Planned payment date (yyy-mm-dd):
+        .col.s12.m8
+          %span= fee.planned_payment_at
+      .row
+        .col.s12.m4
+          %span.bold Transaction date (yyy-mm-dd):
+        .col.s12.m8
+          %span= fee.transaction_at.try(:strftime,'%Y-%m-%d') || '-'
+      .row
+        .col.s12.m4
+          %span.bold Is paid?:
+        .col.s12.m8
+          %span= fee.is_paid?.humanize
+      .row
+        .col.s12.m4
+          %span.bold Document:
+        .col.s12.m8
+          %span
+            - if fee.document.present?
+              = link_to fee.document.original_filename, fee_path(fee), target: '_blank'
+            - else
+              = '-'
 

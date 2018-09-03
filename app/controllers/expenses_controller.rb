@@ -23,6 +23,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.filter_by_source(params[:source]) unless params[:source].blank?
     @expenses = @expenses.filter_by_category(params[:category]) unless params[:category].blank?
     @expenses = @expenses.paginate(per_page: 30, page: params[:page])
+
     respond_to do |f|
       f.html { render :index }
       f.js { render :index, layout: false }
@@ -49,7 +50,6 @@ class ExpensesController < ApplicationController
     if @expense.save_with_category(params[:category_name])
       redirect_to expenses_path, notice: 'Successfully created'
     else
-      p @expense.errors.full_messages
       load_countries
       load_providers
       load_banks
@@ -127,10 +127,10 @@ class ExpensesController < ApplicationController
 
   def expense_params
     params.require(:expense).permit(:provider_id, :country_id, :document_number,
-                                    :source, :description, :currency_id, :amount,
+                                    :source, :description, :currency_id,
                                     :team_id, :collaborator_id, :issue_at, :state,
-                                    :registered_at,:planned_payment_at, :transaction_at,
-                                    :with_fee,:transaction_document, :payment_type,
+                                    :registered_at, :transaction_at,
+                                    :transaction_document, :payment_type,
                                     :account_number, :cci, :contact_email, :place_of_delivery,
                                     :delivery_at, :bank_id,
                                     fees_attributes: [:id, :amount, :planned_payment_at, :_destroy])

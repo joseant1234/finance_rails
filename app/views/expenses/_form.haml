@@ -80,10 +80,6 @@
       = f.label :currency_id, 'Currency (*)'
       %small.red-text#currency_error= @expense.errors.full_messages_for(:currency).to_sentence
     .input-field.col.s12.m3
-      = f.number_field :amount, step: 'any', class: 'amout-field'
-      = f.label :amount, 'Amount included IGV(*)', class: 'active'
-      %small.red-text#amount_error= @expense.errors.full_messages_for(:amount).to_sentence
-    .input-field.col.s12.m3
       = f.select :state, class_enum_for_select("Expense","state"), {}, class: 'state-select-income'
       = label_tag :state, 'State(*)'
 
@@ -96,10 +92,7 @@
       = f.text_field :transaction_at, class: 'datepicker', value: @expense.transaction_at.try(:strftime,"%Y-%m-%d")
       = f.label :transaction_at, 'Transaction at (*)', class: 'active'
       %small.red-text#transaction_at_error= @expense.errors.full_messages_for(:transaction_at).to_sentence
-    .input-field.col.s12.m3.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
-      = f.text_field :planned_payment_at, class: 'datepicker', value: @expense.planned_payment_at.try(:strftime,"%Y-%m-%d")
-      = f.label :planned_payment_at, 'Planned payment at (*)', class: 'active'
-      %small.red-text#planned_payment_at_error= @expense.errors.full_messages_for(:planned_payment_at).to_sentence
+
   .row
     .col.s12.m6
       .file-field.input-field
@@ -111,18 +104,8 @@
       %small.red-text#invoice_copy_error= @expense.errors.full_messages_for(:transaction_document).to_sentence
 
 
-  .row.fields-with-invoice{class: "#{'hidden' if @expense.other? }"}
-    .col.s12.m2
-      %label With fee
-    .col.s12.m10
-      .switch.top-space
-        %label
-          No
-          = f.check_box :with_fee, class: 'with-fee-toggle'
-          %span.lever
-          Yes
 
-  %div{class: "row fees-container fields-with-invoice #{'hidden' if !@expense.with_fee }" }
+  %div{class: "row fees-container fields-with-invoice" }
     .col.s12
       = f.label :fees, 'Fees'
       %small.red-text= @expense.errors.full_messages_for(:fees).to_sentence
