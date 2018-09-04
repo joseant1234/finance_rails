@@ -28,6 +28,9 @@ class Expense < ApplicationRecord
 
   before_save :set_cache_fields
   after_initialize :set_defaults
+  after_save :clear_tmp_images
+
+  attr_accessor :transaction_document_cache
 
   def self.registered_from(from_date)
     if from_date.present?
@@ -102,18 +105,32 @@ class Expense < ApplicationRecord
     number_with_precision(amount, precision: 2) || 0
   end
 
-  def pay(amount, transaction_at, transaction_document)
-    self.update({ amount: amount, transaction_at: transaction_at, transaction_document: transaction_document, state: 'paid' })
-  end
-
   def save_with_category(category)
     self.category = Category.find_by_name(category)
+    self.cache_images_transaction_document
     self.save
   end
 
   def update_with_category(params,category)
     self.category = Category.find_by_name(category)
+    self.cache_images_transaction_document
     self.update(params)
+  end
+
+  def cache_images_transaction_document
+    directory_name = 'public/system/expenses/transaction_documents/original'
+
+    FileUtils.mkdir_p directory_name unless File.exists?(directory_name)
+    if transaction_document.staged?
+      if invalid?
+        FileUtils.cp(transaction_document.queued_for_write[:original].path, transaction_document.path(:original))
+        @transaction_document_cache = transaction_document.path(:original)
+      end
+    else
+      if @transaction_document_cache.present?
+        File.open(@transaction_document_cache) {|f| assign_attributes(transaction_document: f)}
+      end
+    end
   end
 
   private
@@ -129,6 +146,11 @@ class Expense < ApplicationRecord
     # self.with_fee = self.fees.select{ |f| !f.marked_for_destruction?}.length > 1
   end
 
-
+  def clear_tmp_images
+    directory_names = ['public/system/expenses/transaction_documents/original']
+    directory_names.each do |directory|
+      Dir["#{directory}/*"].each{|file| FileUtils.rm file}
+    end
+  end
 
 end

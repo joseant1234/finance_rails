@@ -32,7 +32,6 @@ Rails.application.routes.draw do
       get 'collaborators_information'
     end
     member do
-      put 'pay'
       get 'download'
     end
     resources :fees, shallow: true, except: [:destroy]

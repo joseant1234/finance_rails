@@ -37,6 +37,9 @@ class IncomesController < ApplicationController
 
   def create
     @income = Income.new(income_params)
+    @income.cache_images_invoice_copy
+    @income.cache_images_purchase_order
+
     if @income.save
       redirect_to incomes_path, notice: 'Successfully created'
     else
@@ -54,6 +57,8 @@ class IncomesController < ApplicationController
   end
 
   def update
+    @income.cache_images_invoice_copy
+    @income.cache_images_purchase_order
     if @income.update(income_params)
       redirect_to incomes_path, notice: 'Successfully updated'
     else
@@ -106,8 +111,8 @@ class IncomesController < ApplicationController
   def income_params
     params.require(:income).permit(:income_id, :country_id, :invoice_number, :client_id,
                                     :source, :description, :currency_id, :amount, :igv,
-                                    :billing_at, :registered_at, :purchase_order,
-                                    :purchase_order_number,:invoice_copy, :state,
-                                    :message, :reason, :drawdown_seal)
+                                    :billing_at, :registered_at, :purchase_order, :purchase_order_cache,
+                                    :purchase_order_number,:invoice_copy, :invoice_copy_cache,
+                                    :state,:note, :drawdown_seal)
   end
 end

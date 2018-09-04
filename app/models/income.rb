@@ -26,6 +26,11 @@ class Income < ApplicationRecord
 
   before_save :set_transaction_at
   after_initialize :set_defaults
+  after_save :clear_tmp_images
+
+  # improve invoice_copy_cache and purchase_order_cache
+  # try to develop a concern
+  attr_accessor :invoice_copy_cache, :purchase_order_cache
 
   def self.registered_from(from_date)
     if from_date.present?
@@ -95,6 +100,36 @@ class Income < ApplicationRecord
     ((self.amount || 0) + calculate_igv_amount).round(2)
   end
 
+  def cache_images_invoice_copy
+    directory_name = 'public/system/incomes/invoice_copies/original'
+    FileUtils.mkdir_p directory_name unless File.exists?(directory_name)
+    if invoice_copy.staged?
+      if invalid?
+        FileUtils.cp(invoice_copy.queued_for_write[:original].path, invoice_copy.path(:original))
+        @invoice_copy_cache = invoice_copy.path(:original)
+      end
+    else
+      if @invoice_copy_cache.present?
+        File.open(@invoice_copy_cache) {|f| assign_attributes(invoice_copy: f)}
+      end
+    end
+  end
+
+  def cache_images_purchase_order
+    directory_name = 'public/system/incomes/purchase_orders/original'
+    FileUtils.mkdir_p directory_name unless File.exists?(directory_name)
+    if purchase_order.staged?
+      if invalid?
+        FileUtils.cp(purchase_order.queued_for_write[:original].path, purchase_order.path(:original))
+        @purchase_order_cache = purchase_order.path(:original)
+      end
+    else
+      if @purchase_order_cache.present?
+        File.open(@purchase_order_cache) {|f| assign_attributes(purchase_order: f)}
+      end
+    end
+  end
+
   private
   def set_transaction_at
     self.transaction_at = nil if self.overdued?
@@ -103,6 +138,13 @@ class Income < ApplicationRecord
   def set_defaults
     (self.igv ||=  Parameter.igv.last.value) if self.invoice?
     self.registered_at ||= Time.now
+  end
+
+  def clear_tmp_images
+    directory_names = ['public/system/incomes/invoice_copies/original','public/system/incomes/purchase_orders/original']
+    directory_names.each do |directory|
+      Dir["#{directory}/*"].each{|file| FileUtils.rm file}
+    end
   end
 
 end

@@ -86,14 +86,6 @@ class ExpensesController < ApplicationController
     end
   end
 
-  def pay
-    if @expense.pay(params[:amount], params[:transaction_at], params[:transaction_document])
-      render :pay, layout: false
-    else
-      render partial: 'errors/errors', locals: { resource: @expense }
-    end
-  end
-
   def download
      if @expense.transaction_document.present?
       send_file @expense.transaction_document.path, filename: @expense.transaction_document.original_filename
@@ -130,7 +122,7 @@ class ExpensesController < ApplicationController
                                     :source, :description, :currency_id,
                                     :team_id, :collaborator_id, :issue_at, :state,
                                     :registered_at, :transaction_at,
-                                    :transaction_document, :payment_type,
+                                    :transaction_document, :transaction_document_cache, :payment_type,
                                     :account_number, :cci, :contact_email, :place_of_delivery,
                                     :delivery_at, :bank_id,
                                     fees_attributes: [:id, :amount, :planned_payment_at, :_destroy])

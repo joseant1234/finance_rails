@@ -68,16 +68,18 @@
         .btn.deep-purple.accent-4
           %span Invoice copy
           = f.file_field :invoice_copy
+          = f.hidden_field :invoice_copy_cache
         .file-path-wrapper
-          %input{type: 'text', class: 'file-path validate'}
+          %input{type: 'text', class: 'file-path validate', value: @income.invoice_copy.original_filename}
       %small.red-text#invoice_copy_error= @income.errors.full_messages_for(:invoice_copy).to_sentence
     .col.s12.m6
       .file-field.input-field
         .btn.deep-purple.accent-4
           %span Purchase order
           = f.file_field :purchase_order
+          = f.hidden_field :purchase_order_cache
         .file-path-wrapper
-          %input{type: 'text', class: 'file-path validate'}
+          %input{type: 'text', class: 'file-path validate', value: @income.purchase_order.original_filename}
       %small.red-text#purchase_order_error= @income.errors.full_messages_for(:purchase_order).to_sentence
 
   .row
