@@ -1,5 +1,7 @@
 class InvoicePDF < Prawn::Document
 
+  include ActionView::Helpers::NumberHelper
+
   def initialize(invoice)
     super()
     @invoice = invoice
@@ -61,6 +63,7 @@ class InvoicePDF < Prawn::Document
     bounding_box([0, y_position], :width => 520, :height => 200) do
       table product_rows do
         row(0).font_style = :bold
+        column(1).style(:align => :right)
         self.row_colors = ['D2E3ED', 'FFFFFF']
         self.column_widths = [420, 100]
         self.position = :center
@@ -83,22 +86,22 @@ class InvoicePDF < Prawn::Document
 
     bounding_box([320, 350], :width => 180, :height => 80) do
       text "Sub Total", size: 13, style: :bold
-      # if @invoice.country.name == 'Peru'
-      #   text "IGV", size: 13, style: :bold
-      # end
+      if @invoice.country.name.downcase == 'peru'
+        text "IGV", size: 13, style: :bold
+      end
       text " "
       text " "
       text "TOTAL", size: 13, style: :bold
     end
 
-    bounding_box([425, 350], :width => 270, :height => 80) do
-      text "#{@invoice.currency.code} #{@invoice.amount_decimal}", size: 13
-      # if @invoice.country.name == 'Peru'
-      #   text "#{@invoice.currency.code} #{@invoice.igv_amount}", size: 13
-      # end
+    bounding_box([425, 350], :width => 94, :height => 80) do
+      text "#{@invoice.currency.code} #{@invoice.amount_decimal}", size: 13, align: :right
+      if @invoice.country.name.downcase == 'peru'
+        text "#{@invoice.currency.code} #{number_with_precision(@invoice.calculate_igv_amount,precision: 2)}", size: 13, align: :right
+      end
       text "_____________", size: 13
       text " "
-      text "#{@invoice.currency.code} #{@invoice.amount_decimal}", size: 13
+      text "#{@invoice.currency.code} #{number_with_precision(@invoice.calculate_total, precision: 2)}", size: 13, align: :right
     end
   end
 
